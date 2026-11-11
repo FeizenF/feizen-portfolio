@@ -110,7 +110,7 @@ export default function Contact() {
       values.subject.trim() || `Portfolio contact from ${values.name.trim()}`
     )
     const body = encodeURIComponent(
-      `${values.message.trim()}\n\n— ${values.name.trim()}\n${values.email.trim()}`
+      `${values.message.trim()}\n\nFrom: ${values.name.trim()}\n${values.email.trim()}`
     )
 
     window.location.href = `mailto:${contact.email}?subject=${subject}&body=${body}`
@@ -125,7 +125,7 @@ export default function Contact() {
       <div className="section-inner page-pad">
         <header className="section-head">
           <div className="section-marker">
-            <span className="label section-index">04</span>
+            <span className="label section-index">07</span>
             <span className="label">CONTACT / OPEN CHANNEL</span>
             <span className="section-rule" aria-hidden="true" />
             <span className="label section-file">2026</span>
@@ -261,9 +261,18 @@ export default function Contact() {
                   <span>Send Message</span>
                   <Send size={16} strokeWidth={1.7} aria-hidden="true" />
                 </button>
-                <span className="label form-note">
-                  {contact.email ? 'REPLIES VIA EMAIL' : 'REACH ME ON GITHUB'}
-                </span>
+                {contact.email ? (
+                  <span className="label form-note">REPLIES VIA EMAIL</span>
+                ) : (
+                  <a
+                    className="label form-note"
+                    href={contact.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    REACH ME ON GITHUB
+                  </a>
+                )}
               </div>
 
               <div

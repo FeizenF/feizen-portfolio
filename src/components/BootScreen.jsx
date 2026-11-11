@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-const DURATION = 1100
+const DURATION = 1150
 const FADE = 360
 
 export default function BootScreen({ onDone }) {
@@ -39,6 +39,8 @@ export default function BootScreen({ onDone }) {
     }
   }, [])
 
+  const ready = progress >= 100
+
   return (
     <div
       className={`boot ${leaving ? 'is-done' : ''}`.trim()}
@@ -53,7 +55,7 @@ export default function BootScreen({ onDone }) {
         </span>
 
         <p className="boot-status" role="status" aria-live="polite">
-          INITIALIZING PORTFOLIO...
+          INITIALIZING DIGITAL ENVIRONMENT
         </p>
 
         <div
@@ -72,7 +74,7 @@ export default function BootScreen({ onDone }) {
 
         <div className="boot-meta">
           <span>CYBERSECURITY / PORTFOLIO</span>
-          <span>{String(progress).padStart(2, '0')}%</span>
+          <span>{ready ? 'SYSTEM READY' : `${String(progress).padStart(2, '0')}%`}</span>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export default function SelectedProjects() {
       <div className="section-inner page-pad">
         <header className="section-head">
           <div className="section-marker">
-            <span className="label section-index">02</span>
+            <span className="label section-index">04</span>
             <span className="label">SELECTED PROJECTS</span>
             <span className="section-rule" aria-hidden="true" />
             <span className="label section-file">

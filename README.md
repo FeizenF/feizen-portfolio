@@ -1,33 +1,38 @@
 # FEIZEN / Cybersecurity Portfolio
 
 A single-page portfolio for **Fernanda Brian Kholish (Feizen)**, a cybersecurity
-student and application developer. The design centres on a beige CRT monitor
-built entirely in CSS, an orange terminal readout, and a typographic tunnel that
-recedes behind the screen.
+student and application developer. The hero is a perspective corridor built from
+repeated `FEIZEN` typography and CSS geometry, with the portrait at the central
+vanishing point. The rest of the page follows a dark editorial system with one
+cream section as a change of tempo.
 
-Five sections only: Hero, About, Projects, Expertise, Contact.
+Eight sections: Hero, About, Digital Archive, Infrastructure, Projects,
+Expertise, Research, Contact.
 
 ## Design notes
 
-- **Hero CRT** — casing, bezel, screen, stand, buttons, LED, vents, scanlines,
-  flicker, glare, sticky notes, and floor shadow are CSS geometry. No monitor
-  image or 3D library is used.
-- **Tunnel** — a single static SVG corridor with repeated `FEIZEN` wall labels
-  and one slow breathing animation. It is paused with `IntersectionObserver`
-  when the hero leaves the viewport.
-- **Palette** — `#080301`, `#ff5500`, `#c24100`, `#ffdfd1`, `#dcd9ce`, `#141414`.
-- **Type** — Rajdhani (display), Share Tech Mono (CRT), Silkscreen (pixel
-  accents), Geist (body), JetBrains Mono (labels).
-- **Background** — dark charcoal, slow light drift, faint grid, grain, and six
-  restrained particles. No WebGL.
-- **Motion** — transform/opacity only, `IntersectionObserver` reveals, and full
-  `prefers-reduced-motion` support. The boot screen is about 1.1s and is skipped
-  on repeat visits within the same session and when reduced motion is enabled.
+- **Hero tunnel** — seven layers of `FEIZEN` scale toward one vanishing point,
+  so the typography itself forms the corridor. Floor and ceiling grids add
+  perspective; six slow data paths travel toward the centre. There is no 3D
+  engine and no CRT monitor.
+- **Portrait** — the centre frame holds the real photo when supplied. Until
+  then it shows a typographic identity plate. Nothing is generated or borrowed.
+- **Palette** — `#080b0f` background, `#11161c` and `#171d24` surfaces,
+  `#e8e5dc` text, `#92979d` secondary text, and one restrained steel-blue accent.
+  Research is the single light section (`#e8e5dc`).
+- **Type** — Rajdhani (wordmark), Geist (body and editorial titles), JetBrains
+  Mono (labels and metadata).
+- **Motion** — transform/opacity only. Corridor paths pause off-screen,
+  `IntersectionObserver` handles reveals, and `prefers-reduced-motion` disables
+  the tunnel motion, glitch bursts, and boot overlay. The boot screen is about
+  1.15s and is skipped on repeat visits within the same session.
+- **No internet dependencies at runtime** — fonts, icons, and images are
+  bundled.
 
 ## Stack
 
 - React 18 + Vite 6 (JSX, no TypeScript)
-- Tailwind CSS (preflight and design tokens only; layout is custom CSS)
+- Tailwind CSS (preflight and tokens only; layout is custom CSS)
 - Lucide React icons
 - Self-hosted fonts via `@fontsource` / `@fontsource-variable`
 - Official technology marks from Simple Icons (CC0) bundled locally
@@ -43,19 +48,22 @@ npm run check      # Playwright smoke test (needs a preview server)
 ```
 
 For `npm run check`, start `npm run preview` first, then run the check in a
-second terminal. It verifies layout overflow, console errors, all five
-sections, navigation state, the mobile menu, form validation, and reduced
-motion.
+second terminal. It verifies overflow, console errors, all eight sections,
+navigation state, the mobile menu, form validation, copy rules (no em dash), and
+reduced motion.
 
 ## Sections
 
 | # | Section | Nav | Content |
 |---|---------|-----|---------|
-| 01 | Hero | FEIZEN | CRT monitor, terminal readout, tunnel |
-| 02 | About | About | Identity plate, name, role, interests |
-| 03 | Projects | Projects | Four real projects, stack, links when available |
-| 04 | Expertise | Expertise | Grouped technology logos and names |
-| 05 | Contact | Contact | `LET'S CONNECT.`, form, social channels |
+| 01 | Hero | FEIZEN | Typography tunnel, portrait frame, vanishing point, tagline |
+| 02 | About | About | Identity plate, name, role, focus, interests |
+| 03 | Digital Archive | Archive | Index of real artefacts with category, stack, status |
+| 04 | Infrastructure | Infrastructure | System map, build facts, security posture |
+| 05 | Projects | Projects | Four real projects, stack, links when available |
+| 06 | Expertise | Expertise | Grouped technology logos and names |
+| 07 | Research | Research | Four ongoing study tracks, stated as open questions |
+| 08 | Contact | Contact | `LET'S CONNECT.`, form, social channels |
 
 ## Customize content
 
@@ -64,6 +72,9 @@ All editable content lives in `src/data`; components do not need to change.
 | File | Controls |
 |------|----------|
 | `src/data/about.js` | Name, alias, role, About copy, metadata, interests |
+| `src/data/archive.js` | Archive entries and their anchors |
+| `src/data/infrastructure.js` | System layers, facts, posture copy |
+| `src/data/research.js` | Research tracks, questions, methods, status |
 | `src/data/projects.js` | Project title, description, stack, cover, links |
 | `src/data/technologies.js` | Technology names and grouping |
 | `src/data/contact.js` | Email, GitHub, LinkedIn, Instagram |
@@ -85,7 +96,7 @@ export const profile = {
 }
 ```
 
-Until then the About section shows a typographic identity plate.
+The same file feeds the hero frame and the About identity plate.
 
 ### Project links
 
@@ -142,11 +153,13 @@ muted monochrome by default and take the official brand colour on hover.
 
 ## Responsive behaviour
 
-- The monitor is sized with `--mon: clamp(280px, min(74vw, 70vh), 720px)`, so it
-  scales with the viewport instead of being fixed.
-- The tunnel, monitor, notes, and readout all scale from the same variable.
-- Layouts collapse at 980px (two-column → single column), 900px (desktop nav →
-  mobile menu), and 760px (forms and card details).
+- The tunnel uses percentage positioning and scaled layers, so the vanishing
+  point holds at every width.
+- Desktop shows the full corridor; tablet simplifies it; mobile becomes a
+  narrower vertical corridor with the portrait and identity prioritised.
+- Layouts collapse at 1000px (infrastructure), 980px (two-column to single),
+  940px (desktop nav to menu), 820px (research rows), and 760px (forms and
+  table columns).
 - Verified with no horizontal overflow at 1440, 1366, 820, and 390px.
 
 ## Deployment
@@ -175,14 +188,16 @@ src/
   App.jsx                   boot state, ambient background, nav, sections
   main.jsx                  font and stylesheet imports
   assets/                   project covers + grain
-  components/               AmbientBackground, BootScreen, CrtMonitor,
-                            Footer, HeroTunnel, Navigation, ProfileFrame,
-                            ProjectCard, Reveal, TechIcon
-  data/                     about, projects, technologies, contact,
-                            profile, sections, brandIcons
+  components/               AmbientBackground, BootScreen, DigitalTunnel,
+                            Footer, Navigation, ProfileFrame, ProjectCard,
+                            Reveal, TechIcon
+  data/                     about, archive, infrastructure, research,
+                            projects, technologies, contact, profile,
+                            sections, brandIcons
   hooks/                    useActiveSection, useReducedMotion, useReveal
   lib/scroll.js             native smooth scroll helpers
-  sections/                 Hero, About, SelectedProjects, Expertise, Contact
+  sections/                 Hero, About, Archive, Infrastructure,
+                            SelectedProjects, Expertise, Research, Contact
   styles/                   global, typography, animations, sections
 scripts/                    icon, OG, and Playwright check scripts
 ```
@@ -194,6 +209,7 @@ scripts/                    icon, OG, and Playwright check scripts
   `aria-current="location"`.
 - The mobile menu traps focus, closes on `Escape`, and restores focus.
 - Form errors use `aria-invalid` and `aria-describedby`.
-- Decorative CRT, tunnel, and background layers are `aria-hidden`.
-- Reduced motion disables the boot overlay, tunnel breathing, flicker, LED
-  pulse, scan lines, particles, and reveal transforms.
+- Decorative tunnel, background, and identity-plate layers are `aria-hidden`.
+- Reduced motion disables the boot overlay, corridor paths, glitch bursts,
+  tunnel transitions, particles, and reveal transforms while preserving the
+  full visual structure.

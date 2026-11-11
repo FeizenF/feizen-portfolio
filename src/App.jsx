@@ -3,9 +3,12 @@ import AmbientBackground from './components/AmbientBackground'
 import BootScreen from './components/BootScreen'
 import Navigation from './components/Navigation'
 import About from './sections/About'
+import Archive from './sections/Archive'
 import Contact from './sections/Contact'
 import Expertise from './sections/Expertise'
 import Hero from './sections/Hero'
+import Infrastructure from './sections/Infrastructure'
+import Research from './sections/Research'
 import SelectedProjects from './sections/SelectedProjects'
 import { useActiveSection } from './hooks/useActiveSection'
 import { useReducedMotion } from './hooks/useReducedMotion'
@@ -64,8 +67,11 @@ export default function App() {
       <main id="main" aria-busy={!booted}>
         <Hero entered={booted} />
         <About />
+        <Archive />
+        <Infrastructure />
         <SelectedProjects />
         <Expertise />
+        <Research />
         <Contact />
       </main>
     </div>

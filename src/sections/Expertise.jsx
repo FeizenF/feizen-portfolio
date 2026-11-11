@@ -8,7 +8,7 @@ export default function Expertise() {
       <div className="section-inner page-pad">
         <header className="section-head">
           <div className="section-marker">
-            <span className="label section-index">03</span>
+            <span className="label section-index">05</span>
             <span className="label">EXPERTISE / TOOLKIT</span>
             <span className="section-rule" aria-hidden="true" />
             <span className="label section-file">

@@ -4,19 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        void: '#080301',
-        orange: '#FF5500',
-        ember: '#C24100',
-        warm: '#FFDFD1',
-        casing: '#DCD9CE',
-        surface: '#141414',
+        void: '#080b0f',
+        surface: '#11161c',
+        raise: '#171d24',
+        warm: '#e8e5dc',
+        muted: '#92979d',
+        accent: '#86a9b8',
       },
       fontFamily: {
         display: ['Rajdhani', 'system-ui', 'sans-serif'],
         sans: ['"Geist Variable"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono Variable"', 'ui-monospace', 'monospace'],
-        crt: ['"Share Tech Mono"', 'ui-monospace', 'monospace'],
-        pixel: ['Silkscreen', 'monospace'],
       },
     },
   },
