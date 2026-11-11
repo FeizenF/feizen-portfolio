@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { sectionOrder } from '../data/sections'
+import { flowTop } from '../lib/scroll'
 
 const SECTION_IDS = sectionOrder.map((section) => section.id)
 
 /**
  * Tracks the section currently occupying the reading line (roughly 38% down
  * the viewport). Offsets are cached and only re-measured on resize or font
- * load, so scrolling never forces layout.
+ * load, so scrolling never forces layout. Sticky sheets are measured by their
+ * layout position, not the point they are pinned at.
  */
 export function useActiveSection() {
   const [activeId, setActiveId] = useState(SECTION_IDS[0])
@@ -19,10 +21,7 @@ export function useActiveSection() {
       offsets = SECTION_IDS.map((id) => {
         const element = document.getElementById(id)
         if (!element) return null
-        return {
-          id,
-          top: element.getBoundingClientRect().top + window.scrollY,
-        }
+        return { id, top: flowTop(element) }
       }).filter(Boolean)
     }
 

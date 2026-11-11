@@ -12,9 +12,9 @@ export default {
         accent: '#86a9b8',
       },
       fontFamily: {
-        display: ['Rajdhani', 'system-ui', 'sans-serif'],
-        sans: ['"Geist Variable"', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono Variable"', 'ui-monospace', 'monospace'],
+        display: ['Silkscreen', 'ui-monospace', 'monospace'],
+        sans: ['"Share Tech Mono"', 'ui-monospace', 'monospace'],
+        mono: ['"Share Tech Mono"', 'ui-monospace', 'monospace'],
       },
     },
   },

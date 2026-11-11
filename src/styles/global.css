@@ -34,9 +34,9 @@
   --max: 1280px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
-  --font-display: 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
-  --font-sans: 'Geist Variable', 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, Consolas, monospace;
+  --font-display: 'Silkscreen', 'Share Tech Mono', ui-monospace, monospace;
+  --font-sans: 'Share Tech Mono', ui-monospace, Consolas, monospace;
+  --font-mono: 'Share Tech Mono', ui-monospace, Consolas, monospace;
 }
 
 /* ================================================================== */
@@ -407,11 +407,11 @@ code {
 
 .boot-word {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  font-size: clamp(2rem, 6.4vw, 3rem);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: 0.22em;
-  text-indent: 0.22em;
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
   color: var(--text);
   text-shadow: 0 0 34px rgba(134, 169, 184, 0.24);
 }
@@ -508,9 +508,9 @@ code {
 
 .nav-brand-word {
   font-family: var(--font-display);
-  font-size: 19px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
 }
 
 .nav-brand-tag {
@@ -690,9 +690,9 @@ code {
 
 .footer-word {
   font-family: var(--font-display);
-  font-size: clamp(2.1rem, 4.5vw, 3.4rem);
+  font-size: clamp(1.7rem, 3.6vw, 2.7rem);
   font-weight: 700;
-  line-height: 0.78;
+  line-height: 1;
   letter-spacing: 0.1em;
   color: var(--text);
   transition: color 0.3s var(--ease);

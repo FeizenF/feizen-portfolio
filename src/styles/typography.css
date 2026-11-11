@@ -7,16 +7,16 @@
   font-size: 10px;
   font-weight: 400;
   line-height: 1.5;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .section-title {
-  font-family: var(--font-sans);
-  font-size: clamp(2.5rem, 5.6vw, 5.2rem);
-  font-weight: 500;
-  line-height: 0.98;
-  letter-spacing: -0.025em;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 3.5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   color: var(--text);
   text-wrap: balance;
@@ -28,18 +28,18 @@
 }
 
 .section-intro {
-  max-width: 50ch;
+  max-width: 52ch;
   font-family: var(--font-sans);
-  font-size: clamp(0.98rem, 1.1vw, 1.08rem);
-  line-height: 1.72;
+  font-size: clamp(0.92rem, 1.02vw, 1rem);
+  line-height: 1.78;
   color: var(--muted);
   text-wrap: pretty;
 }
 
 .section-note {
-  max-width: 52ch;
-  font-size: 14px;
-  line-height: 1.65;
+  max-width: 54ch;
+  font-size: 13px;
+  line-height: 1.72;
   color: var(--muted);
   text-wrap: pretty;
 }
@@ -52,10 +52,11 @@
 @media (max-width: 640px) {
   .label {
     font-size: 9px;
-    letter-spacing: 0.13em;
+    letter-spacing: 0.14em;
   }
 
   .section-title {
-    font-size: clamp(2.05rem, 9.4vw, 3.2rem);
+    font-size: clamp(1.35rem, 6.4vw, 2rem);
+    line-height: 1.2;
   }
 }

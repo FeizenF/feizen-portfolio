@@ -8,8 +8,9 @@ const PARTICLES = [
 ]
 
 /**
- * The page-wide atmosphere. Deliberately separate from the hero tunnel: a dark
- * charcoal field, a faint technical grid, slow light, and a little grain.
+ * The page-wide atmosphere. Deliberately separate from the hero monitor and the
+ * binary rain: a dark charcoal field, a faint technical grid, slow light, and a
+ * little grain.
  */
 export default function AmbientBackground() {
   return (

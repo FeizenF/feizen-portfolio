@@ -5,11 +5,11 @@ import path from 'node:path'
 const font = (file) =>
   `data:font/woff2;base64,${fs.readFileSync(file).toString('base64')}`
 
-const rajdhani = font(
-  'node_modules/@fontsource/rajdhani/files/rajdhani-latin-700-normal.woff2'
+const silkscreen = font(
+  'node_modules/@fontsource/silkscreen/files/silkscreen-latin-700-normal.woff2'
 )
 const mono = font(
-  'node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2'
+  'node_modules/@fontsource/share-tech-mono/files/share-tech-mono-latin-400-normal.woff2'
 )
 
 const rings = [720, 584, 460, 348, 248]
@@ -19,13 +19,13 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <style>
-  @font-face { font-family: 'Rajdhani'; font-weight: 700; src: url('${rajdhani}') format('woff2'); }
-  @font-face { font-family: 'JetBrains Mono'; font-weight: 400 700; src: url('${mono}') format('woff2'); }
+  @font-face { font-family: 'Silkscreen'; font-weight: 700; src: url('${silkscreen}') format('woff2'); }
+  @font-face { font-family: 'Share Tech Mono'; font-weight: 400; src: url('${mono}') format('woff2'); }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     width: 1200px; height: 630px; overflow: hidden;
     background: #080b0f; color: #e8e5dc; position: relative;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Share Tech Mono', monospace;
   }
   .glow {
     position: absolute; inset: 0;
@@ -54,12 +54,12 @@ const html = `<!doctype html>
     display: grid; place-items: center;
   }
   .mark-box span { width: 9px; height: 9px; background: #86a9b8; box-shadow: 0 0 12px #86a9b8; }
-  .mark-word { font-family: 'Rajdhani'; font-weight: 700; font-size: 25px; letter-spacing: .16em; color: #e8e5dc; }
+  .mark-word { font-family: 'Silkscreen'; font-weight: 700; font-size: 25px; letter-spacing: .16em; color: #e8e5dc; }
   .meta { text-align: right; font-size: 11px; line-height: 1.9; letter-spacing: .22em; color: rgba(232,229,220,.45); text-transform: uppercase; }
   .mid { position: relative; text-align: center; }
   .kicker { font-size: 11px; letter-spacing: .34em; color: #86a9b8; text-transform: uppercase; margin-bottom: 18px; }
   h1 {
-    font-family: 'Rajdhani'; font-weight: 700; font-size: 172px; line-height: .8;
+    font-family: 'Silkscreen'; font-weight: 700; font-size: 172px; line-height: .8;
     letter-spacing: .1em; text-indent: .1em; color: #e8e5dc; text-transform: uppercase;
     text-shadow: 0 0 70px rgba(134,169,184,.22);
   }

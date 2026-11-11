@@ -1,114 +1,160 @@
-import { useEffect, useRef, useState } from 'react'
-import DigitalTunnel from '../components/DigitalTunnel'
 import { profile } from '../data/profile'
+import { about } from '../data/about'
+
+const SCREEN_ROWS = [
+  { area: 'SECURITY', track: 'DEFENSIVE', state: 'ACTIVE' },
+  { area: 'FORENSICS', track: 'DIGITAL', state: 'STUDY' },
+  { area: 'APPS', track: 'MOBILE / WEB', state: 'BUILD' },
+  { area: 'SYSTEMS', track: 'ARCHITECTURE', state: 'LEARN' },
+]
 
 export default function Hero({ entered = true }) {
-  const sectionRef = useRef(null)
-  const [active, setActive] = useState(true)
-
-  // The corridor is the only continuously moving element on the page. Stop its
-  // path animations when the hero is off-screen.
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section || !('IntersectionObserver' in window)) return undefined
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { threshold: 0 }
-    )
-
-    observer.observe(section)
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <section
-      ref={sectionRef}
       id="hero"
-      className={`hero ${entered ? 'is-entered' : ''}`.trim()}
-      data-active={active}
+      className="crt"
+      data-entered={entered ? 'true' : 'false'}
+      aria-label="Introduction"
     >
-      <DigitalTunnel />
+      <div className="crt-columns" aria-hidden="true">
+        <div className="crt-column crt-column--left">
+          <p>Local node: feizen</p>
+          <p>&gt; status: online</p>
+          <p>&gt; focus:</p>
+          <p className="crt-indent">security</p>
+          <p className="crt-indent">forensics</p>
+          <p className="crt-indent">application development</p>
+          <p className="crt-dim">-- open to collaboration --</p>
+          <p>&gt; stack:</p>
+          <p className="crt-indent">react / vite</p>
+          <p className="crt-indent">kotlin / flutter</p>
+          <p className="crt-indent">linux / python</p>
+        </div>
 
-      <div className="hero-inner page-pad">
-        <div className="hero-topline">
+        <div className="crt-column crt-column--right">
+          <p>TXT&nbsp;&nbsp;&nbsp;___ coursework</p>
+          <p>TXT&nbsp;&nbsp;&nbsp;___ experiments</p>
+          <p>TXT&nbsp;&nbsp;&nbsp;___ field notes</p>
+          <p>TXT&nbsp;&nbsp;&nbsp;___ works in progress</p>
+          <p>TXT&nbsp;&nbsp;&nbsp;___ reading list</p>
+          <p className="crt-dim">root@feizen:~# _</p>
+        </div>
+      </div>
+
+      <div className="crt-wrap page-pad">
+        <div className="crt-topline">
           <span className="label">FEIZEN / PORTFOLIO</span>
-          <span className="label hero-topline-mid">SECURITY / SYSTEMS / BACKEND</span>
+          <span className="label crt-topline-mid">SECURITY / SYSTEMS / BACKEND</span>
           <span className="label">MMXXVI</span>
         </div>
 
-        <div className="hero-stage">
-          <div className="hero-focus">
-            <p className="label hero-eyebrow">DIGITAL / CORRIDOR</p>
+        <div className="crt-stage">
+          <div className="crt-monitor">
+            <div className="crt-shadow" aria-hidden="true" />
 
-            <h1 className="hero-word" data-text="FEIZEN">
-              FEIZEN
-            </h1>
-
-            <figure className="hero-portrait">
-              <div className="hero-portrait-media">
-                {profile.photo ? (
-                  <img
-                    src={profile.photo}
-                    alt={profile.alt}
-                    width="880"
-                    height="1100"
-                    decoding="async"
-                  />
-                ) : (
-                  <div className="hero-portrait-fallback" aria-hidden="true">
-                    <span className="hero-portrait-grid" />
-                    <span className="hero-portrait-mark">{profile.monogram}</span>
-                    <span className="hero-portrait-word">FEIZEN</span>
-                    <span className="hero-portrait-line" />
-                    <span className="hero-portrait-caption">
-                      CYBERSECURITY STUDENT
-                    </span>
-                    <span className="hero-portrait-index">001 / ID</span>
-                  </div>
-                )}
-
-                <span className="hero-corner hero-corner--tl" aria-hidden="true" />
-                <span className="hero-corner hero-corner--tr" aria-hidden="true" />
-                <span className="hero-corner hero-corner--bl" aria-hidden="true" />
-                <span className="hero-corner hero-corner--br" aria-hidden="true" />
+            <div className="crt-casing">
+              <div className="crt-vents" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+                <span />
               </div>
 
-              <figcaption className="hero-portrait-meta">
-                <span className="label">SUBJECT / FEIZEN</span>
-                <span className="label">RECORD / 001</span>
-              </figcaption>
-            </figure>
+              <div className="crt-note crt-note--a" aria-hidden="true">
+                <span className="crt-note-label">FOCUS</span>
+                <strong>SECURITY</strong>
+              </div>
 
-            <div className="hero-vanish" aria-hidden="true">
-              <span className="hero-vanish-ring" />
-              <span className="hero-vanish-dot" />
-              <span className="label hero-vanish-label">VANISHING POINT</span>
+              <div className="crt-note crt-note--b" aria-hidden="true">
+                <span className="crt-smiley">
+                  <i className="crt-smiley-eye crt-smiley-eye--l" />
+                  <i className="crt-smiley-eye crt-smiley-eye--r" />
+                  <i className="crt-smiley-mouth" />
+                </span>
+              </div>
+
+              <div className="crt-note crt-note--c" aria-hidden="true">
+                DO NOT
+                <br />
+                POWER OFF
+              </div>
+
+              <div className="crt-bezel">
+                <div className="crt-screen">
+                  <span className="crt-reflection" aria-hidden="true" />
+
+                  <div className="crt-content">
+                    <h1 className="crt-word hero-word" data-text={profile.name}>
+                      {profile.name}
+                    </h1>
+
+                    <div className="crt-table">
+                      <div className="crt-table-head">
+                        <span>FOCUS</span>
+                        <span>TRACK</span>
+                        <span>STATE</span>
+                      </div>
+
+                      {SCREEN_ROWS.map((row) => (
+                        <div className="crt-table-row" key={row.area}>
+                          <span className="crt-cell crt-cell--area">{row.area}</span>
+                          <span className="crt-cell">{row.track}</span>
+                          <span className="crt-cell crt-cell--state">
+                            <i aria-hidden="true" />
+                            {row.state}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <p className="crt-prompt">
+                      <span className="crt-user">guest@feizen</span>
+                      <span className="crt-path">:~$</span> whoami
+                      <span className="crt-cursor" aria-hidden="true" />
+                    </p>
+                  </div>
+                </div>
+
+                <span className="crt-badge" aria-hidden="true">
+                  FZ
+                </span>
+
+                <div className="crt-controls" aria-hidden="true">
+                  <span className="crt-knob" />
+                  <span className="crt-knob" />
+                  <span className="crt-led" />
+                </div>
+              </div>
             </div>
 
-            <p className="hero-tagline">
-              BUILD. <em>UNDERSTAND.</em> SECURE.
-            </p>
-          </div>
-        </div>
-
-        <div className="hero-bottom">
-          <div className="hero-statement">
-            <p className="label hero-role">
-              CYBERSECURITY STUDENT / APPLICATION DEVELOPER
-            </p>
-            <p className="hero-copy">
-              Exploring how software is built, how systems behave, and how both
-              can be made more resilient.
-            </p>
+            <div className="crt-stand" aria-hidden="true">
+              <span />
+            </div>
+            <div className="crt-base" aria-hidden="true" />
           </div>
 
-          <a className="hero-scroll" href="#about">
-            <span>SCROLL TO EXPLORE</span>
-            <span className="hero-scroll-mark" aria-hidden="true">
-              ↓
-            </span>
-          </a>
+          <div className="crt-lede">
+            <p className="crt-command">
+              <span>&gt; SYSTEM ONLINE.</span>
+              <span>&gt; IDENTITY: {about.name.toUpperCase()}.</span>
+              <span>&gt; ACCESS: OPEN TO COLLABORATION.</span>
+            </p>
+
+            <div className="crt-actions">
+              <a className="crt-exec" href="#projects">
+                [ EXECUTE ]
+                <span className="crt-exec-caret" aria-hidden="true">
+                  _
+                </span>
+              </a>
+              <a className="crt-hint" href="#corridor">
+                <span>SCROLL TO ENTER</span>
+                <span className="crt-hint-mark" aria-hidden="true">
+                  ↓
+                </span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

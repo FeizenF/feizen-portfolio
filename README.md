@@ -1,31 +1,40 @@
 # FEIZEN / Cybersecurity Portfolio
 
 A single-page portfolio for **Fernanda Brian Kholish (Feizen)**, a cybersecurity
-student and application developer. The hero is a perspective corridor built from
-repeated `FEIZEN` typography and CSS geometry, with the portrait at the central
-vanishing point. The rest of the page follows a dark editorial system with one
-cream section as a change of tempo.
+student and application developer. The hero is a beige CRT monitor displaying a
+live terminal readout. Scrolling into the monitor leads to an endless
+perspective corridor with `FEIZEN` on all four walls, then the rest of the page
+stacks as dark editorial sheets with one cream section as a change of tempo.
 
-Eight sections: Hero, About, Digital Archive, Infrastructure, Projects,
-Expertise, Research, Contact.
+Seven numbered sections plus one interlude: Hero, Corridor, About, Digital
+Archive, Infrastructure, Projects, Expertise, Research, Contact.
 
 ## Design notes
 
-- **Hero tunnel** — seven layers of `FEIZEN` scale toward one vanishing point,
-  so the typography itself forms the corridor. Floor and ceiling grids add
-  perspective; six slow data paths travel toward the centre. There is no 3D
-  engine and no CRT monitor.
-- **Portrait** — the centre frame holds the real photo when supplied. Until
-  then it shows a typographic identity plate. Nothing is generated or borrowed.
+- **Hero monitor** — a CSS-built CRT: cream casing, bezel, curved screen,
+  scanlines, flicker, knobs, stand, sticky notes, and a glitching `FEIZEN`
+  wordmark over a terminal table. The screen content is real portfolio data, not
+  decoration. A short boot overlay precedes it and is skipped on repeat visits.
+- **Corridor** — twelve rectangular frames recede toward one vanishing point,
+  each carrying `FEIZEN` on the top, bottom, left, and right walls. Scrolling
+  walks the camera forward; rings recycle at the far end so the corridor never
+  stops. It sits between the hero and About and has its own sticky viewport.
+- **Binary rain** — a fixed canvas of falling `0` and `1` glyphs behind the
+  content, like slow stars. It pauses when the tab is hidden, dims over the
+  cream Research sheet, and becomes a static field under reduced motion.
+- **Portrait** — the About frame holds the real photo when supplied. Until then
+  it shows a typographic identity plate. Nothing is generated or borrowed.
 - **Palette** — `#080b0f` background, `#11161c` and `#171d24` surfaces,
   `#e8e5dc` text, `#92979d` secondary text, and one restrained steel-blue accent.
   Research is the single light section (`#e8e5dc`).
-- **Type** — Rajdhani (wordmark), Geist (body and editorial titles), JetBrains
-  Mono (labels and metadata).
-- **Motion** — transform/opacity only. Corridor paths pause off-screen,
-  `IntersectionObserver` handles reveals, and `prefers-reduced-motion` disables
-  the tunnel motion, glitch bursts, and boot overlay. The boot screen is about
-  1.15s and is skipped on repeat visits within the same session.
+- **Type** — Silkscreen (display, wordmarks, section titles) and Share Tech Mono
+  (body, labels, metadata), both self-hosted.
+- **Motion** — Lenis smooth scroll driven by the GSAP ticker, GSAP ScrollTrigger
+  for scrubbed hero and corridor motion, sticky sheet stacking on desktop, and a
+  different entrance gesture per section. Transform and opacity only; all
+  continuous loops pause off-screen; `prefers-reduced-motion` removes Lenis,
+  sheet stickiness, rain motion, glitch bursts, and reveal transforms while
+  preserving the layout.
 - **No internet dependencies at runtime** — fonts, icons, and images are
   bundled.
 
@@ -33,8 +42,10 @@ Expertise, Research, Contact.
 
 - React 18 + Vite 6 (JSX, no TypeScript)
 - Tailwind CSS (preflight and tokens only; layout is custom CSS)
+- GSAP + ScrollTrigger for scroll choreography
+- Lenis for weighted smooth scrolling
 - Lucide React icons
-- Self-hosted fonts via `@fontsource` / `@fontsource-variable`
+- Self-hosted fonts via `@fontsource` (Silkscreen, Share Tech Mono)
 - Official technology marks from Simple Icons (CC0) bundled locally
 
 ## Getting started
@@ -48,7 +59,7 @@ npm run check      # Playwright smoke test (needs a preview server)
 ```
 
 For `npm run check`, start `npm run preview` first, then run the check in a
-second terminal. It verifies overflow, console errors, all eight sections,
+second terminal. It verifies overflow, console errors, all nine sections,
 navigation state, the mobile menu, form validation, copy rules (no em dash), and
 reduced motion.
 
@@ -56,14 +67,15 @@ reduced motion.
 
 | # | Section | Nav | Content |
 |---|---------|-----|---------|
-| 01 | Hero | FEIZEN | Typography tunnel, portrait frame, vanishing point, tagline |
-| 02 | About | About | Identity plate, name, role, focus, interests |
-| 03 | Digital Archive | Archive | Index of real artefacts with category, stack, status |
-| 04 | Infrastructure | Infrastructure | System map, build facts, security posture |
-| 05 | Projects | Projects | Four real projects, stack, links when available |
-| 06 | Expertise | Expertise | Grouped technology logos and names |
-| 07 | Research | Research | Four ongoing study tracks, stated as open questions |
-| 08 | Contact | Contact | `LET'S CONNECT.`, form, social channels |
+| — | Hero | FEIZEN | CRT monitor, terminal readout, glitching wordmark, scroll cue |
+| — | Corridor | — | Endless `FEIZEN` corridor on all four walls, between hero and About |
+| 01 | About | About | Identity plate, name, role, focus, interests |
+| 02 | Digital Archive | Archive | Index of real artefacts with category, stack, status |
+| 03 | Infrastructure | Infrastructure | System map, build facts, security posture |
+| 04 | Projects | Projects | Four real projects, stack, links when available |
+| 05 | Expertise | Expertise | Grouped technology logos and names |
+| 06 | Research | Research | Four ongoing study tracks, stated as open questions |
+| 07 | Contact | Contact | `LET'S CONNECT.`, form, social channels |
 
 ## Customize content
 
@@ -96,7 +108,7 @@ export const profile = {
 }
 ```
 
-The same file feeds the hero frame and the About identity plate.
+The same file feeds the About identity plate.
 
 ### Project links
 
@@ -153,13 +165,16 @@ muted monochrome by default and take the official brand colour on hover.
 
 ## Responsive behaviour
 
-- The tunnel uses percentage positioning and scaled layers, so the vanishing
-  point holds at every width.
-- Desktop shows the full corridor; tablet simplifies it; mobile becomes a
-  narrower vertical corridor with the portrait and identity prioritised.
+- The CRT monitor scales with `--crt-w`, so its casing, screen, and readout stay
+  proportional from 1440px down to 390px.
+- The corridor uses viewport-relative ring sizes; mobile keeps the wall labels
+  legible and the copy within the sticky viewport.
+- Desktop stacks the hero and the seven content sections as sticky sheets; the
+  corridor has its own sticky viewport between them. At 820px and below the page
+  returns to normal document flow with no sticky layers.
 - Layouts collapse at 1000px (infrastructure), 980px (two-column to single),
-  940px (desktop nav to menu), 820px (research rows), and 760px (forms and
-  table columns).
+  940px (desktop nav to menu), 820px (research rows and sheet stacking), and
+  760px (forms and table columns).
 - Verified with no horizontal overflow at 1440, 1366, 820, and 390px.
 
 ## Deployment
@@ -185,20 +200,21 @@ Before going live on a real domain:
 ```
 index.html                  metadata, JSON-LD, root node
 src/
-  App.jsx                   boot state, ambient background, nav, sections
+  App.jsx                   boot state, background layers, nav, sections
   main.jsx                  font and stylesheet imports
   assets/                   project covers + grain
-  components/               AmbientBackground, BootScreen, DigitalTunnel,
-                            Footer, Navigation, ProfileFrame, ProjectCard,
-                            Reveal, TechIcon
+  components/               AmbientBackground, BinaryRain, BootScreen,
+                            FeizenTunnel, Footer, Navigation, ProfileFrame,
+                            ProjectCard, Reveal, TechIcon
   data/                     about, archive, infrastructure, research,
                             projects, technologies, contact, profile,
                             sections, brandIcons
-  hooks/                    useActiveSection, useReducedMotion, useReveal
-  lib/scroll.js             native smooth scroll helpers
+  hooks/                    useActiveSection, useReducedMotion, useReveal,
+                            useSectionMotion, useSheetStack, useSmoothScroll
+  lib/scroll.js             Lenis registry, flow offsets, anchor helpers
   sections/                 Hero, About, Archive, Infrastructure,
                             SelectedProjects, Expertise, Research, Contact
-  styles/                   global, typography, animations, sections
+  styles/                   global, typography, animations, sections, crt, motion
 scripts/                    icon, OG, and Playwright check scripts
 ```
 
@@ -209,7 +225,8 @@ scripts/                    icon, OG, and Playwright check scripts
   `aria-current="location"`.
 - The mobile menu traps focus, closes on `Escape`, and restores focus.
 - Form errors use `aria-invalid` and `aria-describedby`.
-- Decorative tunnel, background, and identity-plate layers are `aria-hidden`.
-- Reduced motion disables the boot overlay, corridor paths, glitch bursts,
-  tunnel transitions, particles, and reveal transforms while preserving the
-  full visual structure.
+- Decorative rain, corridor walls, ambient layers, and identity-plate details
+  are `aria-hidden`.
+- Reduced motion removes the boot overlay, smooth scrolling, corridor travel,
+  binary rain motion, glitch bursts, sheet stickiness, particles, and reveal
+  transforms while preserving the full visual structure.

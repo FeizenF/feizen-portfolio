@@ -45,6 +45,7 @@ for (const viewport of viewports) {
   const metrics = await page.evaluate(() => {
     const sections = [
       'hero',
+      'corridor',
       'about',
       'archive',
       'infrastructure',
@@ -54,7 +55,7 @@ for (const viewport of viewports) {
       'contact',
     ]
     const found = sections.map((id) => Boolean(document.getElementById(id)))
-    const hero = document.querySelector('.hero-focus')?.getBoundingClientRect()
+    const hero = document.querySelector('.crt-monitor')?.getBoundingClientRect()
     const bodyText = document.body.innerText
 
     return {
@@ -70,6 +71,11 @@ for (const viewport of viewports) {
       infraLayers: document.querySelectorAll('.infra-layer').length,
       researchTracks: document.querySelectorAll('.research-track').length,
       heroWord: document.querySelector('.hero-word')?.textContent?.trim(),
+      corridor: Boolean(document.getElementById('corridor')),
+      rings: document.querySelectorAll('.ft-ring').length,
+      rain: Boolean(document.querySelector('canvas.rain')),
+      sheets: document.querySelectorAll('.sheet').length,
+      bodyFont: getComputedStyle(document.body).fontFamily,
       emDash: bodyText.includes('\u2014'),
       researchBg: getComputedStyle(document.getElementById('research')).backgroundColor,
     }
@@ -88,6 +94,18 @@ for (const viewport of viewports) {
     `${viewport.name}: research tracks ${metrics.researchTracks}`
   )
   check(metrics.heroWord === 'FEIZEN', `${viewport.name}: hero word is ${metrics.heroWord}`)
+  check(metrics.corridor, `${viewport.name}: corridor section missing`)
+  check(metrics.rings === 12, `${viewport.name}: corridor rings ${metrics.rings}`)
+  check(metrics.rain, `${viewport.name}: binary rain canvas missing`)
+  check(
+    metrics.bodyFont.includes('Share Tech Mono'),
+    `${viewport.name}: body font is ${metrics.bodyFont}`
+  )
+  if (viewport.width > 820) {
+    check(metrics.sheets === 8, `${viewport.name}: sticky sheets ${metrics.sheets}`)
+  } else {
+    check(metrics.sheets === 0, `${viewport.name}: sheets should not stack ${metrics.sheets}`)
+  }
   check(!metrics.emDash, `${viewport.name}: em dash found in copy`)
   check(
     metrics.researchBg === 'rgb(232, 229, 220)',
@@ -123,7 +141,7 @@ for (const viewport of viewports) {
   if (viewport.name === 'desktop' || viewport.name === 'mobile') {
     // Navigation active state
     await page.click('a.nav-link[href="#projects"]').catch(() => {})
-    await page.waitForTimeout(900)
+    await page.waitForTimeout(2200)
     const active = await page.evaluate(
       () => document.querySelector('.nav-link.is-active')?.getAttribute('href')
     )
@@ -167,7 +185,7 @@ for (const viewport of viewports) {
   }
 
   notes.push(
-    `${viewport.name}: ${metrics.scrollWidth}px wide, nav ${metrics.navLinks}, sections ${metrics.sections.filter(Boolean).length}/8`
+    `${viewport.name}: ${metrics.scrollWidth}px wide, nav ${metrics.navLinks}, sections ${metrics.sections.filter(Boolean).length}/${metrics.sections.length}`
   )
 
   await context.close()
@@ -185,18 +203,18 @@ const reducedState = await reducedPage.evaluate(() => {
   const boot = document.querySelector('.boot')
   const hero = document.querySelector('.hero-word')
   const glitch = hero ? getComputedStyle(hero, '::before').animationName : ''
-  const layer = document.querySelector('.tunnel-layer')
+  const ring = document.querySelector('.ft-ring:nth-child(2)')
   return {
     boot: Boolean(boot),
     glitch,
-    layerOpacity: layer ? getComputedStyle(layer).opacity : null,
+    ringOpacity: ring ? getComputedStyle(ring).opacity : null,
   }
 })
 check(!reducedState.boot, 'reduced motion: boot screen still rendered')
 check(reducedState.glitch === 'none', 'reduced motion: glitch animation is active')
 check(
-  reducedState.layerOpacity !== null && Number(reducedState.layerOpacity) > 0,
-  'reduced motion: tunnel layers are not visible'
+  reducedState.ringOpacity !== null && Number(reducedState.ringOpacity) > 0,
+  'reduced motion: corridor rings are not visible'
 )
 await reducedPage.screenshot({ path: path.join(OUT, 'reduced-hero.png') })
 await reduced.close()
