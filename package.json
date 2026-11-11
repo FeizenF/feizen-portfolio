@@ -1,0 +1,33 @@
+{
+  "name": "feizen-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "icons": "node scripts/build-brand-icons.cjs",
+    "og": "node scripts/build-og.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource/rajdhani": "^5.3.0",
+    "@fontsource/share-tech-mono": "^5.3.0",
+    "@fontsource/silkscreen": "^5.3.0",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "playwright-core": "^1.65.0",
+    "postcss": "^8.4.49",
+    "simple-icons": "^16.37.0",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.0.7"
+  }
+}

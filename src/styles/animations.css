@@ -1,0 +1,102 @@
+/* ================================================================== */
+/* reveal                                                             */
+/* ================================================================== */
+
+.reveal-ready .rv {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s var(--ease) var(--rv-delay, 0ms),
+    transform 0.8s var(--ease) var(--rv-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal-ready .rv.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+/* ================================================================== */
+/* shared keyframes                                                   */
+/* ================================================================== */
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes ambient-drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.38;
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.08);
+    opacity: 0.62;
+  }
+}
+
+@keyframes ambient-drift-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.04);
+    opacity: 0.5;
+  }
+  to {
+    transform: translate3d(-3%, -4%, 0) scale(1);
+    opacity: 0.3;
+  }
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translate3d(0, 14px, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  88% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate3d(0, -46px, 0);
+    opacity: 0;
+  }
+}
+
+/* ================================================================== */
+/* reduced motion                                                     */
+/* ================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-ready .rv {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .ambient-glow,
+  .ambient-particle,
+  .nav-status-dot {
+    animation: none !important;
+  }
+
+  .ambient-particle {
+    opacity: 0.18;
+  }
+}

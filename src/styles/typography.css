@@ -1,0 +1,61 @@
+/* ================================================================== */
+/* type system                                                        */
+/* ================================================================== */
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6.4vw, 5.8rem);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: var(--warm);
+  text-wrap: balance;
+}
+
+.section-title em {
+  font-style: normal;
+  color: var(--orange);
+}
+
+.section-intro {
+  max-width: 50ch;
+  font-family: var(--font-sans);
+  font-size: clamp(0.98rem, 1.15vw, 1.1rem);
+  line-height: 1.72;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.section-note {
+  max-width: 52ch;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.section-note em {
+  font-style: normal;
+  color: var(--orange);
+}
+
+@media (max-width: 640px) {
+  .label {
+    font-size: 9px;
+    letter-spacing: 0.13em;
+  }
+
+  .section-title {
+    font-size: clamp(2.15rem, 10.5vw, 3.4rem);
+  }
+}
