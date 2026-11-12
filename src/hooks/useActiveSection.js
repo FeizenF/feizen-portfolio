@@ -7,8 +7,7 @@ const SECTION_IDS = sectionOrder.map((section) => section.id)
 /**
  * Tracks the section currently occupying the reading line (roughly 38% down
  * the viewport). Offsets are cached and only re-measured on resize or font
- * load, so scrolling never forces layout. Sticky sheets are measured by their
- * layout position, not the point they are pinned at.
+ * load, so scrolling never forces layout.
  */
 export function useActiveSection() {
   const [activeId, setActiveId] = useState(SECTION_IDS[0])

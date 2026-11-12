@@ -17,6 +17,9 @@ const viewports = [
   { name: 'mobile', width: 390, height: 844 },
 ]
 
+const SECTIONS = ['hero', 'about', 'projects', 'expertise', 'contact']
+const REMOVED = ['corridor', 'archive', 'infrastructure', 'research']
+
 const failures = []
 const notes = []
 
@@ -42,44 +45,41 @@ for (const viewport of viewports) {
   await page.goto(base, { waitUntil: 'networkidle' })
   await page.waitForTimeout(2000)
 
-  const metrics = await page.evaluate(() => {
-    const sections = [
-      'hero',
-      'corridor',
-      'about',
-      'archive',
-      'infrastructure',
-      'projects',
-      'expertise',
-      'research',
-      'contact',
-    ]
+  const metrics = await page.evaluate((sections) => {
     const found = sections.map((id) => Boolean(document.getElementById(id)))
     const hero = document.querySelector('.crt-monitor')?.getBoundingClientRect()
     const bodyText = document.body.innerText
+    const heights = sections.map((id) => {
+      const node = document.getElementById(id)
+      return node ? Math.round(node.getBoundingClientRect().height) : 0
+    })
+    const track = document.querySelector('.project-track')
 
     return {
       scrollWidth: document.documentElement.scrollWidth,
       innerWidth: window.innerWidth,
       sections: found,
+      heights,
       hero: hero
         ? { top: hero.top, bottom: hero.bottom, left: hero.left, right: hero.right }
         : null,
       form: Boolean(document.querySelector('.contact-form')),
       navLinks: document.querySelectorAll('.nav-link').length,
-      archiveRows: document.querySelectorAll('.archive-table tbody tr').length,
-      infraLayers: document.querySelectorAll('.infra-layer').length,
-      researchTracks: document.querySelectorAll('.research-track').length,
+      removed: ['corridor', 'archive', 'infrastructure', 'research'].filter((id) =>
+        document.getElementById(id)
+      ),
       heroWord: document.querySelector('.hero-word')?.textContent?.trim(),
-      corridor: Boolean(document.getElementById('corridor')),
-      rings: document.querySelectorAll('.ft-ring').length,
       rain: Boolean(document.querySelector('canvas.rain')),
+      beams: document.querySelectorAll('.ambient-beam').length,
       sheets: document.querySelectorAll('.sheet').length,
+      sets: document.querySelectorAll('.project-set').length,
+      cards: document.querySelectorAll('.project-card').length,
+      marquee: track ? getComputedStyle(track).animationName : null,
       bodyFont: getComputedStyle(document.body).fontFamily,
+      titleFont: getComputedStyle(document.querySelector('.nav-brand-word')).fontFamily,
       emDash: bodyText.includes('\u2014'),
-      researchBg: getComputedStyle(document.getElementById('research')).backgroundColor,
     }
-  })
+  }, SECTIONS)
 
   check(
     metrics.scrollWidth <= metrics.innerWidth + 1,
@@ -87,30 +87,29 @@ for (const viewport of viewports) {
   )
   check(metrics.sections.every(Boolean), `${viewport.name}: missing a section`)
   check(metrics.form, `${viewport.name}: contact form missing`)
-  check(metrics.archiveRows === 5, `${viewport.name}: archive rows ${metrics.archiveRows}`)
-  check(metrics.infraLayers === 5, `${viewport.name}: infra layers ${metrics.infraLayers}`)
   check(
-    metrics.researchTracks === 4,
-    `${viewport.name}: research tracks ${metrics.researchTracks}`
+    metrics.removed.length === 0,
+    `${viewport.name}: removed sections still present (${metrics.removed.join(', ')})`
   )
   check(metrics.heroWord === 'FEIZEN', `${viewport.name}: hero word is ${metrics.heroWord}`)
-  check(metrics.corridor, `${viewport.name}: corridor section missing`)
-  check(metrics.rings === 12, `${viewport.name}: corridor rings ${metrics.rings}`)
   check(metrics.rain, `${viewport.name}: binary rain canvas missing`)
+  check(metrics.beams === 3, `${viewport.name}: ambient beams ${metrics.beams}`)
+  check(metrics.sheets === 0, `${viewport.name}: sticky sheets still present`)
+  check(metrics.sets === 2, `${viewport.name}: marquee sets ${metrics.sets}`)
+  check(metrics.cards === 8, `${viewport.name}: marquee cards ${metrics.cards}`)
+  check(
+    metrics.marquee === 'project-marquee',
+    `${viewport.name}: marquee animation is ${metrics.marquee}`
+  )
   check(
     metrics.bodyFont.includes('Share Tech Mono'),
     `${viewport.name}: body font is ${metrics.bodyFont}`
   )
-  if (viewport.width > 820) {
-    check(metrics.sheets === 8, `${viewport.name}: sticky sheets ${metrics.sheets}`)
-  } else {
-    check(metrics.sheets === 0, `${viewport.name}: sheets should not stack ${metrics.sheets}`)
-  }
-  check(!metrics.emDash, `${viewport.name}: em dash found in copy`)
   check(
-    metrics.researchBg === 'rgb(232, 229, 220)',
-    `${viewport.name}: research section is not the light interlude (${metrics.researchBg})`
+    metrics.titleFont.includes('Rajdhani'),
+    `${viewport.name}: display font is ${metrics.titleFont}`
   )
+  check(!metrics.emDash, `${viewport.name}: em dash found in copy`)
   check(
     metrics.hero &&
       metrics.hero.top >= 0 &&
@@ -120,8 +119,17 @@ for (const viewport of viewports) {
     `${viewport.name}: hero focus outside viewport (${JSON.stringify(metrics.hero)})`
   )
 
+  if (viewport.width > 760) {
+    metrics.heights.forEach((height, index) => {
+      check(
+        height >= viewport.height - 2,
+        `${viewport.name}: ${SECTIONS[index]} is ${height}px, shorter than one screen`
+      )
+    })
+  }
+
   if (viewport.width > 940) {
-    check(metrics.navLinks === 7, `${viewport.name}: expected 7 desktop nav links`)
+    check(metrics.navLinks === 4, `${viewport.name}: expected 4 desktop nav links`)
   }
 
   check(
@@ -139,14 +147,24 @@ for (const viewport of viewports) {
   })
 
   if (viewport.name === 'desktop' || viewport.name === 'mobile') {
-    // Navigation active state
+    // Navigation active state and exact landing
     await page.click('a.nav-link[href="#projects"]').catch(() => {})
     await page.waitForTimeout(2200)
-    const active = await page.evaluate(
-      () => document.querySelector('.nav-link.is-active')?.getAttribute('href')
-    )
+    const state = await page.evaluate(() => {
+      const node = document.getElementById('projects')
+      return {
+        active: document.querySelector('.nav-link.is-active')?.getAttribute('href'),
+        top: node ? Math.round(node.getBoundingClientRect().top) : null,
+      }
+    })
     if (viewport.width > 940) {
-      check(active === '#projects', `nav active state failed (${active})`)
+      check(state.active === '#projects', `nav active state failed (${state.active})`)
+    }
+    if (viewport.width > 760) {
+      check(
+        state.top !== null && Math.abs(state.top) <= 2,
+        `${viewport.name}: projects did not land flush (top ${state.top})`
+      )
     }
 
     // Back to hero
@@ -185,7 +203,7 @@ for (const viewport of viewports) {
   }
 
   notes.push(
-    `${viewport.name}: ${metrics.scrollWidth}px wide, nav ${metrics.navLinks}, sections ${metrics.sections.filter(Boolean).length}/${metrics.sections.length}`
+    `${viewport.name}: ${metrics.scrollWidth}px wide, nav ${metrics.navLinks}, sections ${metrics.sections.filter(Boolean).length}/${metrics.sections.length}, heights ${metrics.heights.join('/')}`
   )
 
   await context.close()
@@ -203,18 +221,24 @@ const reducedState = await reducedPage.evaluate(() => {
   const boot = document.querySelector('.boot')
   const hero = document.querySelector('.hero-word')
   const glitch = hero ? getComputedStyle(hero, '::before').animationName : ''
-  const ring = document.querySelector('.ft-ring:nth-child(2)')
+  const track = document.querySelector('.project-track')
+  const clone = document.querySelector('.project-set--clone')
+  const beam = document.querySelector('.ambient-beam')
   return {
     boot: Boolean(boot),
     glitch,
-    ringOpacity: ring ? getComputedStyle(ring).opacity : null,
+    marquee: track ? getComputedStyle(track).animationName : null,
+    cloneDisplay: clone ? getComputedStyle(clone).display : null,
+    beamAnimation: beam ? getComputedStyle(beam).animationName : null,
   }
 })
 check(!reducedState.boot, 'reduced motion: boot screen still rendered')
 check(reducedState.glitch === 'none', 'reduced motion: glitch animation is active')
+check(reducedState.marquee === 'none', 'reduced motion: marquee still animating')
+check(reducedState.cloneDisplay === 'none', 'reduced motion: clone set still visible')
 check(
-  reducedState.ringOpacity !== null && Number(reducedState.ringOpacity) > 0,
-  'reduced motion: corridor rings are not visible'
+  reducedState.beamAnimation === 'none',
+  'reduced motion: ambient beams still animating'
 )
 await reducedPage.screenshot({ path: path.join(OUT, 'reduced-hero.png') })
 await reduced.close()

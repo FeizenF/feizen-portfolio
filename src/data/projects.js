@@ -18,7 +18,7 @@ export const projects = [
     technology: 'Flutter / Dart',
     stack: ['Flutter', 'Dart'],
     description:
-      'A mobile application for exploring tourism destinations in Magetan, built around destination details and a simple browsing flow.',
+      'A mobile guide to tourism destinations in Magetan, with place details and a simple browsing flow.',
     image: wisataImage,
     alt: 'Topographic contour study with a plotted route and waypoints.',
     github: null,
@@ -32,7 +32,7 @@ export const projects = [
     technology: 'Flutter / Dart',
     stack: ['Flutter', 'Dart'],
     description:
-      'A product catalog application with product detail views and an interactive ordering flow.',
+      'A product catalog with detail views and an interactive ordering flow.',
     image: catalogImage,
     alt: 'Grid of abstract product cards on a dark interface.',
     github: null,
@@ -46,7 +46,7 @@ export const projects = [
     technology: 'React / JavaScript',
     stack: ['React', 'JavaScript'],
     description:
-      'A personal portfolio documenting development interests, selected projects, and technical exploration.',
+      'A personal portfolio of projects, interests, and technical exploration.',
     image: portfolioImage,
     alt: 'Editorial dark composition with technical rules and a wordmark.',
     github: null,

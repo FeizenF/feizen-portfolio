@@ -2,12 +2,11 @@
 
 A single-page portfolio for **Fernanda Brian Kholish (Feizen)**, a cybersecurity
 student and application developer. The hero is a beige CRT monitor displaying a
-live terminal readout. Scrolling into the monitor leads to an endless
-perspective corridor with `FEIZEN` on all four walls, then the rest of the page
-stacks as dark editorial sheets with one cream section as a change of tempo.
+live terminal readout, followed by four full-screen sections in a standard
+portfolio order.
 
-Seven numbered sections plus one interlude: Hero, Corridor, About, Digital
-Archive, Infrastructure, Projects, Expertise, Research, Contact.
+Hero, About, Projects, Expertise, Contact. Each section fills one screen, and
+navigation lands flush on the section it points to.
 
 ## Design notes
 
@@ -15,26 +14,24 @@ Archive, Infrastructure, Projects, Expertise, Research, Contact.
   scanlines, flicker, knobs, stand, sticky notes, and a glitching `FEIZEN`
   wordmark over a terminal table. The screen content is real portfolio data, not
   decoration. A short boot overlay precedes it and is skipped on repeat visits.
-- **Corridor** — twelve rectangular frames recede toward one vanishing point,
-  each carrying `FEIZEN` on the top, bottom, left, and right walls. Scrolling
-  walks the camera forward; rings recycle at the far end so the corridor never
-  stops. It sits between the hero and About and has its own sticky viewport.
+- **Background** — a fixed cyber-steel atmosphere in the spirit of the nexus
+  template: slow SVG light beams, a faint technical grid, film noise, thin
+  scanlines, and a radial vignette.
 - **Binary rain** — a fixed canvas of falling `0` and `1` glyphs behind the
-  content, like slow stars. It pauses when the tab is hidden, dims over the
-  cream Research sheet, and becomes a static field under reduced motion.
+  content, like slow stars. It pauses when the tab is hidden and becomes a
+  static field under reduced motion.
 - **Portrait** — the About frame holds the real photo when supplied. Until then
   it shows a typographic identity plate. Nothing is generated or borrowed.
 - **Palette** — `#080b0f` background, `#11161c` and `#171d24` surfaces,
   `#e8e5dc` text, `#92979d` secondary text, and one restrained steel-blue accent.
-  Research is the single light section (`#e8e5dc`).
-- **Type** — Silkscreen (display, wordmarks, section titles) and Share Tech Mono
-  (body, labels, metadata), both self-hosted.
+- **Type** — Rajdhani for the `FEIZEN` wordmark and section titles, Share Tech
+  Mono for body copy, JetBrains Mono for small technical labels, and Silkscreen
+  for the boot word and small pixel accents. All self-hosted.
 - **Motion** — Lenis smooth scroll driven by the GSAP ticker, GSAP ScrollTrigger
-  for scrubbed hero and corridor motion, sticky sheet stacking on desktop, and a
-  different entrance gesture per section. Transform and opacity only; all
-  continuous loops pause off-screen; `prefers-reduced-motion` removes Lenis,
-  sheet stickiness, rain motion, glitch bursts, and reveal transforms while
-  preserving the layout.
+  for the hero drift and section entrances, and a project rail that slides in
+  then runs horizontally, pausing on hover, focus, and off-screen. Transform and
+  opacity only; `prefers-reduced-motion` removes Lenis, the marquee, rain motion,
+  glitch bursts, and reveal transforms while preserving the layout.
 - **No internet dependencies at runtime** — fonts, icons, and images are
   bundled.
 
@@ -45,7 +42,8 @@ Archive, Infrastructure, Projects, Expertise, Research, Contact.
 - GSAP + ScrollTrigger for scroll choreography
 - Lenis for weighted smooth scrolling
 - Lucide React icons
-- Self-hosted fonts via `@fontsource` (Silkscreen, Share Tech Mono)
+- Self-hosted fonts via `@fontsource` (Rajdhani, Share Tech Mono, JetBrains Mono,
+  Silkscreen)
 - Official technology marks from Simple Icons (CC0) bundled locally
 
 ## Getting started
@@ -59,23 +57,19 @@ npm run check      # Playwright smoke test (needs a preview server)
 ```
 
 For `npm run check`, start `npm run preview` first, then run the check in a
-second terminal. It verifies overflow, console errors, all nine sections,
-navigation state, the mobile menu, form validation, copy rules (no em dash), and
-reduced motion.
+second terminal. It verifies overflow, console errors, the five sections, exact
+anchor landing, navigation state, the project rail, the mobile menu, form
+validation, copy rules (no em dash), typography, and reduced motion.
 
 ## Sections
 
 | # | Section | Nav | Content |
 |---|---------|-----|---------|
 | — | Hero | FEIZEN | CRT monitor, terminal readout, glitching wordmark, scroll cue |
-| — | Corridor | — | Endless `FEIZEN` corridor on all four walls, between hero and About |
 | 01 | About | About | Identity plate, name, role, focus, interests |
-| 02 | Digital Archive | Archive | Index of real artefacts with category, stack, status |
-| 03 | Infrastructure | Infrastructure | System map, build facts, security posture |
-| 04 | Projects | Projects | Four real projects, stack, links when available |
-| 05 | Expertise | Expertise | Grouped technology logos and names |
-| 06 | Research | Research | Four ongoing study tracks, stated as open questions |
-| 07 | Contact | Contact | `LET'S CONNECT.`, form, social channels |
+| 02 | Projects | Projects | Horizontal rail of four real projects, stack, links when available |
+| 03 | Expertise | Expertise | Grouped technology logos and names |
+| 04 | Contact | Contact | `LET'S CONNECT.`, form, GitHub channel, footer |
 
 ## Customize content
 
@@ -84,9 +78,6 @@ All editable content lives in `src/data`; components do not need to change.
 | File | Controls |
 |------|----------|
 | `src/data/about.js` | Name, alias, role, About copy, metadata, interests |
-| `src/data/archive.js` | Archive entries and their anchors |
-| `src/data/infrastructure.js` | System layers, facts, posture copy |
-| `src/data/research.js` | Research tracks, questions, methods, status |
 | `src/data/projects.js` | Project title, description, stack, cover, links |
 | `src/data/technologies.js` | Technology names and grouping |
 | `src/data/contact.js` | Email, GitHub, LinkedIn, Instagram |
@@ -148,7 +139,7 @@ export const contact = {
 ## Assets and scripts
 
 ```
-src/assets/                 project covers + grain (hashed by Vite)
+src/assets/                 project covers (hashed by Vite)
 public/                     favicon, OG cover, robots.txt, headers
 scripts/build-brand-icons.cjs  regenerates src/data/brandIcons.js from Simple Icons
 scripts/build-og.mjs        regenerates public/assets/og-cover.png
@@ -167,14 +158,16 @@ muted monochrome by default and take the official brand colour on hover.
 
 - The CRT monitor scales with `--crt-w`, so its casing, screen, and readout stay
   proportional from 1440px down to 390px.
-- The corridor uses viewport-relative ring sizes; mobile keeps the wall labels
-  legible and the copy within the sticky viewport.
-- Desktop stacks the hero and the seven content sections as sticky sheets; the
-  corridor has its own sticky viewport between them. At 820px and below the page
-  returns to normal document flow with no sticky layers.
-- Layouts collapse at 1000px (infrastructure), 980px (two-column to single),
-  940px (desktop nav to menu), 820px (research rows and sheet stacking), and
-  760px (forms and table columns).
+- Every section is at least `100svh` tall and centres its content, so a nav click
+  lands on a complete screen. On phones the form and project rail stay compact
+  enough to fit one screen as well.
+- The project rail uses two duplicated sets for a seamless horizontal loop, and
+  pauses when the pointer or keyboard focus enters, when off-screen, and under
+  reduced motion (where it becomes a normal horizontal scroll).
+- Layouts collapse at 980px (projects/expertise heads, contact columns), 940px
+  (desktop nav to menu), 760px (About stacks, compact tech list, tighter form),
+  and 640px (portrait plate hidden). Short desktop windows (`max-height: 830px`)
+  get a compact variant so sections still fit one screen.
 - Verified with no horizontal overflow at 1440, 1366, 820, and 390px.
 
 ## Deployment
@@ -202,18 +195,16 @@ index.html                  metadata, JSON-LD, root node
 src/
   App.jsx                   boot state, background layers, nav, sections
   main.jsx                  font and stylesheet imports
-  assets/                   project covers + grain
-  components/               AmbientBackground, BinaryRain, BootScreen,
-                            FeizenTunnel, Footer, Navigation, ProfileFrame,
-                            ProjectCard, Reveal, TechIcon
-  data/                     about, archive, infrastructure, research,
-                            projects, technologies, contact, profile,
+  assets/                   project covers
+  components/               AmbientBackground, BinaryRain, BootScreen, Footer,
+                            Navigation, ProfileFrame, ProjectCard, Reveal,
+                            TechIcon
+  data/                     about, projects, technologies, contact, profile,
                             sections, brandIcons
   hooks/                    useActiveSection, useReducedMotion, useReveal,
-                            useSectionMotion, useSheetStack, useSmoothScroll
+                            useSectionMotion, useSmoothScroll
   lib/scroll.js             Lenis registry, flow offsets, anchor helpers
-  sections/                 Hero, About, Archive, Infrastructure,
-                            SelectedProjects, Expertise, Research, Contact
+  sections/                 Hero, About, SelectedProjects, Expertise, Contact
   styles/                   global, typography, animations, sections, crt, motion
 scripts/                    icon, OG, and Playwright check scripts
 ```
@@ -225,8 +216,7 @@ scripts/                    icon, OG, and Playwright check scripts
   `aria-current="location"`.
 - The mobile menu traps focus, closes on `Escape`, and restores focus.
 - Form errors use `aria-invalid` and `aria-describedby`.
-- Decorative rain, corridor walls, ambient layers, and identity-plate details
-  are `aria-hidden`.
-- Reduced motion removes the boot overlay, smooth scrolling, corridor travel,
-  binary rain motion, glitch bursts, sheet stickiness, particles, and reveal
-  transforms while preserving the full visual structure.
+- Decorative rain, ambient layers, and identity-plate details are `aria-hidden`.
+- Reduced motion removes the boot overlay, smooth scrolling, the project rail
+  animation, binary rain motion, glitch bursts, and reveal transforms while
+  preserving the full visual structure.

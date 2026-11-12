@@ -125,7 +125,7 @@ export default function Contact() {
       <div className="section-inner page-pad">
         <header className="section-head">
           <div className="section-marker">
-            <span className="label section-index">07</span>
+            <span className="label section-index">04</span>
             <span className="label">CONTACT / OPEN CHANNEL</span>
             <span className="section-rule" aria-hidden="true" />
             <span className="label section-file">2026</span>
@@ -135,15 +135,14 @@ export default function Contact() {
         <div className="contact-layout">
           <div className="contact-intro">
             <Reveal as="h2" className="contact-title">
-              LET&apos;S
+              LET&apos;S{' '}
               <br />
               <em>CONNECT.</em>
             </Reveal>
 
             <Reveal as="p" className="contact-lead" delay={90}>
-              Open to conversations about cybersecurity, software development,
-              and technology. If you have a question, an idea, or a project
-              worth discussing, send a message.
+              Open to cybersecurity, development, and collaboration. Send a
+              message or reach out on GitHub.
             </Reveal>
 
             <Reveal as="ul" className="contact-channels" delay={150}>
@@ -242,7 +241,7 @@ export default function Contact() {
                 <textarea
                   id="field-message"
                   name="message"
-                  rows={5}
+                  rows={3}
                   placeholder="Write your message..."
                   value={values.message}
                   onChange={updateField}

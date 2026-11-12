@@ -147,8 +147,8 @@ export default function Hero({ entered = true }) {
                   _
                 </span>
               </a>
-              <a className="crt-hint" href="#corridor">
-                <span>SCROLL TO ENTER</span>
+              <a className="crt-hint" href="#about">
+                <span>SCROLL FOR MORE</span>
                 <span className="crt-hint-mark" aria-hidden="true">
                   ↓
                 </span>

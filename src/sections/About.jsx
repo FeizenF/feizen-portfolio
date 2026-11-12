@@ -71,11 +71,6 @@ export default function About() {
             </Reveal>
           </div>
         </div>
-
-        <footer className="section-foot about-foot">
-          <p className="section-note">{about.footNote}</p>
-          <span className="label">{about.role.toUpperCase()} / {about.alias.toUpperCase()}</span>
-        </footer>
       </div>
     </section>
   )

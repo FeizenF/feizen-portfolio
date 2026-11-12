@@ -6,8 +6,8 @@ const FADE = 0.09
 /**
  * A page-wide field of binary glyphs falling like slow stars.
  *
- * The canvas sits above the section sheets and below the navigation, and is
- * transparent so the trails dissolve into whatever is behind it. Motion is
+ * The canvas sits behind the page content and below the navigation, and is
+ * transparent so the trails dissolve into the ambient background. Motion is
  * paused while the tab is hidden and replaced by a single static field when
  * the visitor prefers reduced motion.
  */

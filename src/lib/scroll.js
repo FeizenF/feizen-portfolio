@@ -12,8 +12,8 @@ export function setLenis(next) {
 /**
  * The document offset of an element as laid out in the flow.
  *
- * Sticky sheets report the position they are pinned at, which is not where
- * they begin, so anchors resolve against the offset chain instead.
+ * Sections carry their own top padding for the fixed nav, so anchoring against
+ * this raw offset lands the section flush with the top of the viewport.
  */
 export function flowTop(element) {
   let top = 0
@@ -27,21 +27,14 @@ export function flowTop(element) {
   return top
 }
 
-export function navHeight() {
-  if (typeof window === 'undefined') return 0
-  const value = getComputedStyle(document.documentElement).getPropertyValue('--nav')
-  const parsed = Number.parseFloat(value)
-  return Number.isFinite(parsed) ? parsed : 0
-}
-
 export function scrollToId(id) {
   const target = document.getElementById(id)
   if (!target) return
 
-  const top = Math.max(0, flowTop(target) - navHeight())
+  const top = Math.max(0, flowTop(target))
 
   if (instance) {
-    instance.scrollTo(top, { duration: 1.5 })
+    instance.scrollTo(top, { duration: 1.2 })
     return
   }
 

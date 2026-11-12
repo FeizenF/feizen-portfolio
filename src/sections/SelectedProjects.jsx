@@ -1,16 +1,32 @@
-import { ArrowUpRight } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import ProjectCard from '../components/ProjectCard'
 import Reveal from '../components/Reveal'
 import { projects } from '../data/projects'
-import { contact } from '../data/contact'
 
 export default function SelectedProjects() {
+  const marqueeRef = useRef(null)
+
+  useEffect(() => {
+    const node = marqueeRef.current
+    if (!node || typeof IntersectionObserver === 'undefined') return undefined
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        node.dataset.playing = entry.isIntersecting ? 'true' : 'false'
+      },
+      { rootMargin: '120px 0px' }
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <section id="projects" className="section projects">
       <div className="section-inner page-pad">
         <header className="section-head">
           <div className="section-marker">
-            <span className="label section-index">04</span>
+            <span className="label section-index">02</span>
             <span className="label">SELECTED PROJECTS</span>
             <span className="section-rule" aria-hidden="true" />
             <span className="label section-file">
@@ -26,42 +42,30 @@ export default function SelectedProjects() {
             </Reveal>
 
             <Reveal as="p" className="section-intro" delay={90}>
-              A small record of applications, interfaces, and technical work in
-              progress. Each entry is a real project, kept to its original
-              scope.
+              Real projects, kept to their original scope.
             </Reveal>
           </div>
         </header>
+      </div>
 
-        <div className="project-grid">
-          {projects.map((project, index) => (
-            <Reveal
-              key={project.id}
-              className="project-cell"
-              delay={(index % 2) * 90}
-            >
-              <ProjectCard project={project} index={index} />
-            </Reveal>
-          ))}
+      <div className="project-marquee" ref={marqueeRef}>
+        <div className="project-track">
+          <ul className="project-set">
+            {projects.map((project, index) => (
+              <li key={project.id}>
+                <ProjectCard project={project} index={index} />
+              </li>
+            ))}
+          </ul>
+
+          <ul className="project-set project-set--clone" aria-hidden="true">
+            {projects.map((project, index) => (
+              <li key={`${project.id}-clone`}>
+                <ProjectCard project={project} index={index} clone />
+              </li>
+            ))}
+          </ul>
         </div>
-
-        {contact.github ? (
-          <div className="projects-more">
-            <p className="section-note">
-              More experiments, coursework, and works in progress live on
-              GitHub.
-            </p>
-            <a
-              className="inline-link"
-              href={contact.github}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              VISIT GITHUB
-              <ArrowUpRight size={16} strokeWidth={1.6} aria-hidden="true" />
-            </a>
-          </div>
-        ) : null}
       </div>
     </section>
   )

@@ -1,10 +1,16 @@
 import { ArrowUpRight, Github } from 'lucide-react'
 
-export default function ProjectCard({ project, index }) {
+export default function ProjectCard({ project, index, clone = false }) {
   const hasLinks = Boolean(project.github || project.live)
+  const titleId = clone ? `project-${project.id}-clone` : `project-${project.id}`
+  const linkTabIndex = clone ? -1 : undefined
 
   return (
-    <article className="project-card" aria-labelledby={`project-${project.id}`}>
+    <article
+      className="project-card"
+      aria-labelledby={titleId}
+      aria-hidden={clone ? 'true' : undefined}
+    >
       <div className="project-media">
         <img
           src={project.image}
@@ -27,7 +33,7 @@ export default function ProjectCard({ project, index }) {
           <span className="label">CASE / {project.number}</span>
         </div>
 
-        <h3 id={`project-${project.id}`} className="project-title">
+        <h3 id={titleId} className="project-title">
           {project.title}
         </h3>
 
@@ -47,6 +53,7 @@ export default function ProjectCard({ project, index }) {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
+                  tabIndex={linkTabIndex}
                   aria-label={`${project.title} on GitHub`}
                 >
                   <Github size={15} strokeWidth={1.6} aria-hidden="true" />
@@ -59,6 +66,7 @@ export default function ProjectCard({ project, index }) {
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
+                  tabIndex={linkTabIndex}
                   aria-label={`${project.title} live site`}
                 >
                   <ArrowUpRight size={15} strokeWidth={1.6} aria-hidden="true" />

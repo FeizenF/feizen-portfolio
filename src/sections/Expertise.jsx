@@ -8,7 +8,7 @@ export default function Expertise() {
       <div className="section-inner page-pad">
         <header className="section-head">
           <div className="section-marker">
-            <span className="label section-index">05</span>
+            <span className="label section-index">03</span>
             <span className="label">EXPERTISE / TOOLKIT</span>
             <span className="section-rule" aria-hidden="true" />
             <span className="label section-file">
@@ -24,9 +24,7 @@ export default function Expertise() {
             </Reveal>
 
             <Reveal as="p" className="section-intro" delay={90}>
-              An index of the languages, frameworks, and tools I use and
-              continue to learn. No scores, no percentages: just the current
-              working set.
+              Languages, frameworks, and tools I actually use.
             </Reveal>
           </div>
         </header>
@@ -65,14 +63,6 @@ export default function Expertise() {
             )
           })}
         </div>
-
-        <footer className="section-foot expertise-foot">
-          <p className="section-note">
-            The work moves between what is built, what supports it, and what
-            can break it.
-          </p>
-          <span className="label">SECURITY / DEVELOPMENT / SYSTEMS</span>
-        </footer>
       </div>
     </section>
   )

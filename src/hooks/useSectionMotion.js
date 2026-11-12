@@ -7,10 +7,9 @@ gsap.registerPlugin(ScrollTrigger)
 const ENTER = { duration: 0.9, ease: 'power3.out' }
 
 /**
- * One motion idea per section, so the page never repeats the same gesture:
- * a column that drifts, a table that scans, a map that draws, cards that
- * settle, tiles that boot, questions that slide, a form that signals in.
- * Transform and opacity only.
+ * One motion idea per section: the hero casing drifts, the identity plate
+ * settles, the project rail slides in and then runs, tiles boot, and the
+ * contact form signals in. Transform and opacity only.
  */
 export function useSectionMotion(reducedMotion, ready = true) {
   useEffect(() => {
@@ -44,52 +43,12 @@ export function useSectionMotion(reducedMotion, ready = true) {
         scrollTrigger: { trigger: '.about-meta', start: 'top 82%', once: true },
       })
 
-      gsap.from('.archive-table tbody tr', {
-        y: 18,
+      gsap.from('.project-marquee', {
+        x: 56,
         opacity: 0,
-        duration: 0.55,
-        stagger: 0.06,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: '.archive-table', start: 'top 78%', once: true },
-      })
-
-      gsap.from('.archive-table thead th', {
-        opacity: 0,
-        y: -8,
-        duration: 0.5,
-        stagger: 0.04,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: '.archive-table', start: 'top 82%', once: true },
-      })
-
-      gsap.from('.infra-node', {
-        scale: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: 'back.out(2)',
-        scrollTrigger: { trigger: '.infra-layers', start: 'top 76%', once: true },
-      })
-
-      gsap.from('.infra-component', {
-        x: -14,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: '.infra-layers', start: 'top 76%', once: true },
-      })
-
-      gsap.utils.toArray('.project-card').forEach((card, index) => {
-        gsap.from(card, {
-          y: 44,
-          rotateX: 7,
-          opacity: 0,
-          duration: 0.85,
-          delay: (index % 2) * 0.08,
-          ease: 'power3.out',
-          transformOrigin: '50% 100%',
-          scrollTrigger: { trigger: card, start: 'top 88%', once: true },
-        })
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '.projects', start: 'top 66%', once: true },
       })
 
       gsap.from('.tech-tile', {
@@ -100,15 +59,6 @@ export function useSectionMotion(reducedMotion, ready = true) {
         stagger: 0.03,
         ease: 'power2.out',
         scrollTrigger: { trigger: '.tech-groups', start: 'top 78%', once: true },
-      })
-
-      gsap.from('.research-question', {
-        x: -26,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.08,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: '.research-list', start: 'top 78%', once: true },
       })
 
       gsap.from('.contact-channel', {
@@ -127,18 +77,6 @@ export function useSectionMotion(reducedMotion, ready = true) {
         stagger: 0.05,
         ease: 'power2.out',
         scrollTrigger: { trigger: '.contact-form', start: 'top 88%', once: true },
-      })
-
-      gsap.to('.ft-copy', {
-        yPercent: -18,
-        opacity: 0.25,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#corridor',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
       })
     })
 

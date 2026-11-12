@@ -2,21 +2,16 @@ import { useEffect, useState } from 'react'
 import AmbientBackground from './components/AmbientBackground'
 import BinaryRain from './components/BinaryRain'
 import BootScreen from './components/BootScreen'
-import FeizenTunnel from './components/FeizenTunnel'
 import Navigation from './components/Navigation'
 import About from './sections/About'
-import Archive from './sections/Archive'
 import Contact from './sections/Contact'
 import Expertise from './sections/Expertise'
 import Hero from './sections/Hero'
-import Infrastructure from './sections/Infrastructure'
-import Research from './sections/Research'
 import SelectedProjects from './sections/SelectedProjects'
 import { useActiveSection } from './hooks/useActiveSection'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useReveal } from './hooks/useReveal'
 import { useSectionMotion } from './hooks/useSectionMotion'
-import { useSheetStack } from './hooks/useSheetStack'
 import { useSmoothScroll } from './hooks/useSmoothScroll'
 
 const BOOT_KEY = 'feizen.booted'
@@ -39,7 +34,6 @@ export default function App() {
 
   useReveal(reducedMotion)
   useSmoothScroll(reducedMotion)
-  useSheetStack()
   useSectionMotion(reducedMotion, booted)
 
   useEffect(() => {
@@ -75,13 +69,9 @@ export default function App() {
 
       <main id="main" aria-busy={!booted}>
         <Hero entered={booted} />
-        <FeizenTunnel reducedMotion={reducedMotion} />
         <About />
-        <Archive />
-        <Infrastructure />
         <SelectedProjects />
         <Expertise />
-        <Research />
         <Contact />
       </main>
     </div>

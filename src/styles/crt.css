@@ -5,14 +5,10 @@
 .rain {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 0;
   pointer-events: none;
-  opacity: 0.4;
+  opacity: 0.22;
   transition: opacity 0.6s var(--ease);
-}
-
-html[data-sheet-theme='light'] .rain {
-  opacity: 0.09;
 }
 
 /* ================================================================== */
@@ -368,11 +364,11 @@ html[data-sheet-theme='light'] .rain {
   position: relative;
   isolation: isolate;
   font-family: var(--font-display);
-  font-size: clamp(1.1rem, 3.2vw, 2.4rem);
+  font-size: clamp(1.5rem, 4.2vw, 3.2rem);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: 0.08em;
-  text-indent: 0.08em;
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
   text-align: center;
   text-transform: uppercase;
   color: var(--text);
@@ -677,216 +673,6 @@ html[data-sheet-theme='light'] .rain {
 }
 
 /* ================================================================== */
-/* 02 / CORRIDOR â€” FEIZEN ON EVERY WALL, ENDLESS                      */
-/* ================================================================== */
-
-.ft {
-  position: relative;
-  z-index: 3;
-  min-height: 220svh;
-  background:
-    radial-gradient(ellipse at 50% 50%, rgba(134, 169, 184, 0.05), transparent 46%),
-    linear-gradient(180deg, #070a0d 0%, #05080b 50%, #080b0f 100%);
-  color: var(--text);
-}
-
-.ft-sticky {
-  position: sticky;
-  top: 0;
-  display: grid;
-  place-items: center;
-  height: 100svh;
-  overflow: hidden;
-}
-
-.ft-stage {
-  position: absolute;
-  inset: 0;
-  perspective: 760px;
-  perspective-origin: 50% 50%;
-}
-
-.ft-rings {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-}
-
-.ft-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(58vw, 700px);
-  height: min(42svh, 380px);
-  transform: translate(-50%, -50%);
-  transform-style: preserve-3d;
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-.ft-ring::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(134, 169, 184, 0.22);
-  box-shadow: inset 0 0 48px rgba(134, 169, 184, 0.045);
-}
-
-.ft-wall {
-  position: absolute;
-  padding: 0 0.6em;
-  background: #070a0d;
-  font-family: var(--font-display);
-  font-size: clamp(0.5rem, 0.9vw, 0.85rem);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.32em;
-  text-indent: 0.32em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: rgba(134, 169, 184, 0.68);
-  text-shadow: 0 0 14px rgba(134, 169, 184, 0.28);
-}
-
-.ft-wall--top {
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.ft-wall--bottom {
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 50%);
-}
-
-.ft-wall--left {
-  top: 50%;
-  left: 0;
-  transform: translate(-50%, -50%) rotate(-90deg);
-}
-
-.ft-wall--right {
-  top: 50%;
-  right: 0;
-  transform: translate(50%, -50%) rotate(90deg);
-}
-
-.ft-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 38vmin;
-  height: 38vmin;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(134, 169, 184, 0.26) 0%,
-    rgba(134, 169, 184, 0.06) 46%,
-    transparent 70%
-  );
-  filter: blur(3px);
-  transform: translate(-50%, -50%);
-}
-
-.ft-void {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text);
-  box-shadow:
-    0 0 24px rgba(232, 229, 220, 0.8),
-    0 0 64px rgba(134, 169, 184, 0.55);
-  transform: translate(-50%, -50%);
-  animation: ft-pulse 4s ease-in-out infinite;
-}
-
-.ft-scan {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    180deg,
-    transparent 0 3px,
-    rgba(0, 0, 0, 0.12) 3px 4px
-  );
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-.ft-copy {
-  position: absolute;
-  bottom: clamp(24px, 6vh, 64px);
-  left: 50%;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-  max-width: 1440px;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.ft-label {
-  color: rgba(134, 169, 184, 0.82);
-}
-
-.ft-line {
-  max-width: 34ch;
-  font-size: clamp(0.9rem, 1.05vw, 1.02rem);
-  line-height: 1.72;
-  color: var(--muted);
-}
-
-.ft-note {
-  color: var(--ghost);
-}
-
-/* ================================================================== */
-/* sheets and smooth scrolling                                        */
-/* ================================================================== */
-
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-html.lenis {
-  scroll-behavior: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.sheet {
-  position: sticky;
-  top: var(--stick, 0px);
-  background-color: var(--bg);
-}
-
-.sheet.research {
-  background-color: var(--text);
-}
-
-main > .sheet {
-  box-shadow: 0 -26px 60px -22px rgba(0, 0, 0, 0.6);
-}
-
-.sheet-veil {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: #05080b;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.14s linear;
-}
-
-/* ================================================================== */
 /* keyframes                                                          */
 /* ================================================================== */
 
@@ -922,18 +708,6 @@ main > .sheet {
   }
 }
 
-@keyframes ft-pulse {
-  0%,
-  100% {
-    opacity: 0.65;
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-  50% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.25);
-  }
-}
-
 /* ================================================================== */
 /* responsive                                                         */
 /* ================================================================== */
@@ -944,10 +718,41 @@ main > .sheet {
   }
 }
 
-@media (max-width: 820px) {
-  .ft-ring {
-    width: min(84vw, 560px);
-    height: min(44svh, 340px);
+@media (min-width: 761px) and (max-height: 830px) {
+  .crt {
+    padding-top: calc(var(--nav) - 6px);
+  }
+
+  .crt-wrap {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .crt-monitor {
+    --crt-w: min(72vw, 470px, calc((100svh - 402px) * 1.2));
+  }
+
+  .crt-stage {
+    gap: 10px;
+  }
+
+  .crt-lede {
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .crt-command {
+    padding: 7px 12px;
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  .crt-exec {
+    min-height: 40px;
+  }
+
+  .crt-word {
+    font-size: clamp(1.4rem, 3.6vw, 2.6rem);
   }
 }
 
@@ -955,7 +760,6 @@ main > .sheet {
   .crt-monitor {
     --crt-w: min(88vw, 380px);
   }
-
   .crt-note {
     display: none;
   }
@@ -966,7 +770,7 @@ main > .sheet {
   }
 
   .crt-word {
-    font-size: 1.12rem;
+    font-size: 1.6rem;
   }
 
   .crt-table-head {
@@ -1003,22 +807,6 @@ main > .sheet {
     font-size: 8px;
     letter-spacing: 0.12em;
   }
-
-  .ft-wall {
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    text-indent: 0.18em;
-    color: rgba(134, 169, 184, 0.82);
-  }
-
-  .ft-copy {
-    bottom: 22px;
-    gap: 6px;
-  }
-
-  .ft-line {
-    font-size: 0.86rem;
-  }
 }
 
 @media (max-width: 400px) {
@@ -1046,7 +834,6 @@ main > .sheet {
   .crt-screen,
   .crt-cursor,
   .crt-exec-caret,
-  .ft-void,
   .crt-word::before,
   .crt-word::after {
     animation: none !important;
