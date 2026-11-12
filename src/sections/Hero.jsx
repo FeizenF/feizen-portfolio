@@ -16,6 +16,17 @@ export default function Hero({ entered = true }) {
       data-entered={entered ? 'true' : 'false'}
       aria-label="Introduction"
     >
+      <div className="crt-scene" aria-hidden="true">
+        <span className="crt-aura" />
+        <span className="crt-floor" />
+        <span className="crt-radar">
+          <span className="crt-radar-ring" />
+          <span className="crt-radar-ring" />
+          <span className="crt-radar-ring" />
+          <span className="crt-radar-sweep" />
+        </span>
+      </div>
+
       <div className="crt-columns" aria-hidden="true">
         <div className="crt-column crt-column--left">
           <p>Local node: feizen</p>

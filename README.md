@@ -14,24 +14,34 @@ navigation lands flush on the section it points to.
   scanlines, flicker, knobs, stand, sticky notes, and a glitching `FEIZEN`
   wordmark over a terminal table. The screen content is real portfolio data, not
   decoration. A short boot overlay precedes it and is skipped on repeat visits.
-- **Background** — a fixed cyber-steel atmosphere in the spirit of the nexus
-  template: slow SVG light beams, a faint technical grid, film noise, thin
-  scanlines, and a radial vignette.
-- **Binary rain** — a fixed canvas of falling `0` and `1` glyphs behind the
-  content, like slow stars. It pauses when the tab is hidden and becomes a
-  static field under reduced motion.
+- **Hero atmosphere** — the hero has its own scene behind the monitor: a slow
+  radar sweep with concentric rings, a perspective floor grid, and a soft steel
+  aura. The other sections share a quieter background.
+- **Background** — a fixed cyber-steel field: a circuit network of right-angled
+  traces and glowing nodes, three packets of light travelling along the longest
+  traces, a faint technical grid, film noise, thin scanlines, and a vignette.
+- **Binary rain** — only a handful of `0` and `1` trails fall behind the content,
+  spaced out so the copy stays readable. It pauses when the tab is hidden and
+  becomes a static scatter under reduced motion.
 - **Portrait** — the About frame holds the real photo when supplied. Until then
   it shows a typographic identity plate. Nothing is generated or borrowed.
 - **Palette** — `#080b0f` background, `#11161c` and `#171d24` surfaces,
   `#e8e5dc` text, `#92979d` secondary text, and one restrained steel-blue accent.
 - **Type** — Rajdhani for the `FEIZEN` wordmark and section titles, Share Tech
   Mono for body copy, JetBrains Mono for small technical labels, and Silkscreen
-  for the boot word and small pixel accents. All self-hosted.
+  for the boot word and small pixel accents. Navigation uses 12.5px links and a
+  23px wordmark with the square `F` mark, so the menu stays readable at a
+  glance. All self-hosted.
+- **Boot screen** — a short boot sequence with a glitching `FEIZEN` word, typed
+  terminal lines, a thin binary rain, a scan sweep, and a progress bar. It runs
+  once per session and is skipped entirely under reduced motion.
 - **Motion** — Lenis smooth scroll driven by the GSAP ticker, GSAP ScrollTrigger
   for the hero drift and section entrances, and a project rail that slides in
-  then runs horizontally, pausing on hover, focus, and off-screen. Transform and
-  opacity only; `prefers-reduced-motion` removes Lenis, the marquee, rain motion,
-  glitch bursts, and reveal transforms while preserving the layout.
+  then runs horizontally, pausing on hover, focus, and off-screen. Content
+  blocks enter with a staggered lift, scale, and blur in the spirit of the cyber
+  template; `prefers-reduced-motion` removes Lenis, the marquee, rain motion,
+  glitch bursts, blur transitions, and reveal transforms while preserving the
+  layout.
 - **No internet dependencies at runtime** — fonts, icons, and images are
   bundled.
 

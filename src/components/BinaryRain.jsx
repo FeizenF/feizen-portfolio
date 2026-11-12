@@ -1,15 +1,16 @@
 import { useEffect, useRef } from 'react'
 
 const GLYPHS = ['0', '1']
-const FADE = 0.09
+const FADE = 0.12
+
+const COUNT = { phone: 6, tablet: 9, desktop: 12 }
 
 /**
- * A page-wide field of binary glyphs falling like slow stars.
+ * A very sparse field of binary glyphs falling like slow rain.
  *
- * The canvas sits behind the page content and below the navigation, and is
- * transparent so the trails dissolve into the ambient background. Motion is
- * paused while the tab is hidden and replaced by a single static field when
- * the visitor prefers reduced motion.
+ * Only a handful of trails cross the screen, so the page stays readable. The
+ * canvas sits behind the content, pauses while the tab is hidden, and becomes a
+ * static scatter when the visitor prefers reduced motion.
  */
 export default function BinaryRain({ reducedMotion = false }) {
   const canvasRef = useRef(null)
@@ -25,9 +26,9 @@ export default function BinaryRain({ reducedMotion = false }) {
     let height = 0
     let fontSize = 14
     let lineHeight = 0
-    let columns = 0
     let drops = []
     let speeds = []
+    let positions = []
     let frame = 0
     let running = true
 
@@ -42,12 +43,24 @@ export default function BinaryRain({ reducedMotion = false }) {
       context.setTransform(ratio, 0, 0, ratio, 0, 0)
 
       fontSize = width < 640 ? 11 : width < 1100 ? 12.5 : 14
-      lineHeight = fontSize * 1.5
-      columns = Math.ceil(width / (fontSize * 1.35))
-      drops = Array.from({ length: columns }, () =>
-        Math.random() * (height / lineHeight + 12)
+      lineHeight = fontSize * 1.6
+
+      const count =
+        width < 640
+          ? COUNT.phone
+          : width < 1100
+            ? COUNT.tablet
+            : COUNT.desktop
+
+      drops = Array.from(
+        { length: count },
+        () => Math.random() * (height / lineHeight + 14)
       )
-      speeds = Array.from({ length: columns }, () => 0.16 + Math.random() * 0.26)
+      speeds = Array.from({ length: count }, () => 0.1 + Math.random() * 0.16)
+      positions = Array.from(
+        { length: count },
+        () => 0.04 * width + Math.random() * width * 0.92
+      )
 
       context.clearRect(0, 0, width, height)
 
@@ -61,16 +74,18 @@ export default function BinaryRain({ reducedMotion = false }) {
       context.font = `${fontSize}px 'Share Tech Mono', monospace`
       context.textAlign = 'center'
 
-      for (let i = 0; i < columns; i += 1) {
-        const x = i * fontSize * 1.35 + fontSize / 2
-        const rows = 3 + Math.floor(Math.random() * 7)
+      for (let i = 0; i < positions.length; i += 1) {
+        const rows = 2 + Math.floor(Math.random() * 3)
         const start = Math.random() * Math.max(1, height / lineHeight - rows)
 
         for (let row = 0; row < rows; row += 1) {
           const y = (start + row) * lineHeight
-          const alpha = 0.05 + Math.random() * 0.14
-          context.fillStyle = `rgba(134, 169, 184, ${alpha.toFixed(3)})`
-          context.fillText(GLYPHS[Math.random() > 0.5 ? 0 : 1], x, y)
+          context.fillStyle = 'rgba(134, 169, 184, 0.16)'
+          context.fillText(
+            GLYPHS[Math.random() > 0.5 ? 0 : 1],
+            positions[i],
+            y
+          )
         }
       }
     }
@@ -86,22 +101,23 @@ export default function BinaryRain({ reducedMotion = false }) {
       context.font = `${fontSize}px 'Share Tech Mono', monospace`
       context.textAlign = 'center'
 
-      for (let i = 0; i < columns; i += 1) {
-        const x = i * fontSize * 1.35 + fontSize / 2
+      for (let i = 0; i < positions.length; i += 1) {
+        const x = positions[i]
         const head = Math.floor(drops[i]) * lineHeight
-        const glyph = GLYPHS[Math.random() > 0.72 ? 1 : 0]
+        const glyph = GLYPHS[Math.random() > 0.74 ? 1 : 0]
 
-        context.fillStyle = 'rgba(232, 229, 220, 0.34)'
+        context.fillStyle = 'rgba(232, 229, 220, 0.26)'
         context.fillText(glyph, x, head)
 
-        context.fillStyle = 'rgba(134, 169, 184, 0.22)'
+        context.fillStyle = 'rgba(134, 169, 184, 0.15)'
         context.fillText(glyph, x, head - lineHeight)
 
         drops[i] += speeds[i]
 
-        if (drops[i] * lineHeight > height + lineHeight * 4) {
-          drops[i] = -Math.random() * 8
-          speeds[i] = 0.16 + Math.random() * 0.26
+        if (drops[i] * lineHeight > height + lineHeight * 3) {
+          drops[i] = -Math.random() * 10
+          speeds[i] = 0.1 + Math.random() * 0.16
+          positions[i] = 0.04 * width + Math.random() * width * 0.92
         }
       }
 

@@ -1,10 +1,15 @@
 import { useEffect } from 'react'
 
+const STEP = 70
+const MAX_STEPS = 7
+
 /**
  * Progressive enhancement for `.rv` elements.
  *
- * Hidden reveal states are only applied once this hook marks the document
- * as reveal-ready. Without JavaScript, every element stays visible.
+ * Hidden reveal states are only applied once this hook marks the document as
+ * reveal-ready. Elements that enter together are given an increasing delay, so
+ * each block lands in sequence instead of all at once. Without JavaScript,
+ * every element stays visible.
  */
 export function useReveal(reducedMotion) {
   useEffect(() => {
@@ -19,22 +24,41 @@ export function useReveal(reducedMotion) {
 
     root.classList.add('reveal-ready')
 
+    let step = 0
+    let resetTimer = 0
+
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
+        const incoming = entries.filter((entry) => entry.isIntersecting)
+        if (!incoming.length) return
+
+        incoming.forEach((entry, index) => {
+          const delay = Math.min(step + index, MAX_STEPS) * STEP
+          entry.target.style.setProperty('--rv-stagger', `${delay}ms`)
+        })
+
+        step += incoming.length
+        window.clearTimeout(resetTimer)
+        resetTimer = window.setTimeout(() => {
+          step = 0
+        }, 180)
+
+        incoming.forEach((entry) => {
           entry.target.classList.add('is-visible')
           observer.unobserve(entry.target)
         })
       },
       {
-        rootMargin: '0px 0px -8% 0px',
+        rootMargin: '0px 0px -6% 0px',
         threshold: 0.08,
       }
     )
 
     elements.forEach((element) => observer.observe(element))
 
-    return () => observer.disconnect()
+    return () => {
+      window.clearTimeout(resetTimer)
+      observer.disconnect()
+    }
   }, [reducedMotion])
 }

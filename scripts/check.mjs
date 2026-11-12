@@ -71,6 +71,11 @@ for (const viewport of viewports) {
       heroWord: document.querySelector('.hero-word')?.textContent?.trim(),
       rain: Boolean(document.querySelector('canvas.rain')),
       beams: document.querySelectorAll('.ambient-beam').length,
+      nodes: document.querySelectorAll('.ambient-node-core').length,
+      radar: Boolean(document.querySelector('.crt-radar')),
+      floor: Boolean(document.querySelector('.crt-floor')),
+      brandF: document.querySelector('.nav-brand-f')?.textContent?.trim(),
+      boot: Boolean(document.querySelector('.boot')),
       sheets: document.querySelectorAll('.sheet').length,
       sets: document.querySelectorAll('.project-set').length,
       cards: document.querySelectorAll('.project-card').length,
@@ -94,6 +99,10 @@ for (const viewport of viewports) {
   check(metrics.heroWord === 'FEIZEN', `${viewport.name}: hero word is ${metrics.heroWord}`)
   check(metrics.rain, `${viewport.name}: binary rain canvas missing`)
   check(metrics.beams === 3, `${viewport.name}: ambient beams ${metrics.beams}`)
+  check(metrics.nodes >= 10, `${viewport.name}: circuit nodes ${metrics.nodes}`)
+  check(metrics.radar, `${viewport.name}: hero radar missing`)
+  check(metrics.floor, `${viewport.name}: hero floor grid missing`)
+  check(metrics.brandF === 'F', `${viewport.name}: nav brand mark is ${metrics.brandF}`)
   check(metrics.sheets === 0, `${viewport.name}: sticky sheets still present`)
   check(metrics.sets === 2, `${viewport.name}: marquee sets ${metrics.sets}`)
   check(metrics.cards === 8, `${viewport.name}: marquee cards ${metrics.cards}`)

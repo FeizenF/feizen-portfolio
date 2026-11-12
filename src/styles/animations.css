@@ -4,16 +4,19 @@
 
 .reveal-ready .rv {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(26px) scale(0.965);
+  filter: blur(7px);
   transition:
-    opacity 0.8s var(--ease) var(--rv-delay, 0ms),
-    transform 0.8s var(--ease) var(--rv-delay, 0ms);
-  will-change: opacity, transform;
+    opacity 0.85s var(--ease) calc(var(--rv-delay, 0ms) + var(--rv-stagger, 0ms)),
+    transform 0.85s var(--ease) calc(var(--rv-delay, 0ms) + var(--rv-stagger, 0ms)),
+    filter 0.85s var(--ease) calc(var(--rv-delay, 0ms) + var(--rv-stagger, 0ms));
+  will-change: opacity, transform, filter;
 }
 
 .reveal-ready .rv.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  filter: blur(0);
   will-change: auto;
 }
 
@@ -35,10 +38,20 @@
 
 @keyframes beam-flow {
   from {
-    stroke-dashoffset: 150;
+    stroke-dashoffset: 480;
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes node-pulse {
+  0%,
+  100% {
+    opacity: 0.28;
+  }
+  50% {
+    opacity: 0.92;
   }
 }
 
@@ -107,10 +120,12 @@
   .reveal-ready .rv {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
     transition: none !important;
   }
 
   .ambient-beam,
+  .ambient-node-core,
   .nav-status-dot {
     animation: none !important;
   }

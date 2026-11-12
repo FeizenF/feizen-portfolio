@@ -75,7 +75,7 @@ export default function Navigation({ activeId }) {
             aria-label="FEIZEN, back to top"
           >
             <span className="nav-brand-mark" aria-hidden="true">
-              <span />
+              <span className="nav-brand-f">F</span>
             </span>
             <span className="nav-brand-word">FEIZEN</span>
             <span className="nav-brand-tag">PORTFOLIO</span>
