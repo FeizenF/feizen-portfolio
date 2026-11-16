@@ -5,7 +5,7 @@
  * every public destination linked from the portfolio.
  */
 export const siteStatus = {
-  checkedAt: '2026-11-15',
+  checkedAt: '2026-11-16',
   ok: true,
   warnings: 0,
   items: [
