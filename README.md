@@ -35,6 +35,10 @@ navigation lands flush on the section it points to.
 - **Boot screen** — a short boot sequence with a glitching `FEIZEN` word, typed
   terminal lines, a thin binary rain, a scan sweep, and a progress bar. It runs
   once per session and is skipped entirely under reduced motion.
+- **Footer system line** — the footer prints `SYS CHECK <date> · ALL N LINKS OK`
+  from `src/data/siteStatus.js`. A workflow probes every public destination once
+  a day, so the line reflects real reachability instead of a fixed string. A
+  failing link switches the dot and label to a muted amber warning.
 - **Motion** — Lenis smooth scroll driven by the GSAP ticker, GSAP ScrollTrigger
   for the hero drift and section entrances, and a project rail that slides in
   then runs horizontally, pausing on hover, focus, and off-screen. Content
@@ -154,12 +158,14 @@ src/assets/                 project covers (hashed by Vite)
 public/                     favicon, OG cover, robots.txt, headers
 scripts/build-brand-icons.cjs  regenerates src/data/brandIcons.js from Simple Icons
 scripts/build-og.mjs        regenerates public/assets/og-cover.png
+scripts/site-check.mjs      probes the public links and writes src/data/siteStatus.js
 scripts/check.mjs           Playwright smoke test
 ```
 
 ```bash
-npm run icons   # rebuild brand icon paths
-npm run og      # rebuild the 1200x630 OG image
+npm run icons       # rebuild brand icon paths
+npm run og          # rebuild the 1200x630 OG image
+npm run site-check  # refresh the footer SYS CHECK line
 ```
 
 Technology paths are unmodified Simple Icons SVGs (CC0 1.0). Icons render in a
@@ -198,6 +204,19 @@ Before going live on a real domain:
    values in `index.html` (they are relative now because no domain is known).
 2. Add a `sitemap.xml` and reference it from `robots.txt` if you want one.
 3. Fill in the contact fields and portrait described above.
+
+## Automation
+
+`.github/workflows/daily-site-check.yml` runs three times a day. It executes
+`scripts/site-check.mjs`, which probes the public links listed in the script and
+rewrites `src/data/siteStatus.js` with the date and status codes. When the file
+differs, the workflow commits it as `chore(site-check): YYYY-MM-DD`; on repeat
+runs the probe finds identical results and the job exits without a commit.
+
+The commit is authored with the account's noreply address, so the repository
+owner receives the contribution. Manual runs are possible from the Actions tab.
+A push also triggers whichever host is connected to the repository (Netlify or
+Vercel), so the deployed copy picks up the fresh check date.
 
 ## Project structure
 

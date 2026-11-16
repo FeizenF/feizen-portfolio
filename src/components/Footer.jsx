@@ -1,5 +1,12 @@
+import { siteStatus } from '../data/siteStatus'
+
 export default function Footer() {
   const year = new Date().getFullYear()
+  const checked = siteStatus.checkedAt
+  const total = siteStatus.items.length
+  const result = siteStatus.ok
+    ? `ALL ${total} LINKS OK`
+    : `${siteStatus.warnings} OF ${total} LINKS DOWN`
 
   return (
     <footer className="site-footer">
@@ -19,6 +26,16 @@ export default function Footer() {
           <span aria-hidden="true">↑</span>
         </a>
       </div>
+
+      <p
+        className="footer-system"
+        data-ok={siteStatus.ok}
+        aria-label={`Site check ${checked}: ${result}`}
+      >
+        <span className="footer-system-dot" aria-hidden="true" />
+        <span className="label">SYS CHECK {checked}</span>
+        <span className="label footer-system-result">{result}</span>
+      </p>
 
       <div className="footer-bottom">
         <span className="label">© {year} FERNANDA BRIAN KHOLISH</span>

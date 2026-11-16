@@ -75,6 +75,8 @@ for (const viewport of viewports) {
       radar: Boolean(document.querySelector('.crt-radar')),
       floor: Boolean(document.querySelector('.crt-floor')),
       brandF: document.querySelector('.nav-brand-f')?.textContent?.trim(),
+      sysCheck: document.querySelector('.footer-system')?.textContent?.trim(),
+      sysOk: document.querySelector('.footer-system')?.getAttribute('data-ok'),
       boot: Boolean(document.querySelector('.boot')),
       sheets: document.querySelectorAll('.sheet').length,
       sets: document.querySelectorAll('.project-set').length,
@@ -103,6 +105,15 @@ for (const viewport of viewports) {
   check(metrics.radar, `${viewport.name}: hero radar missing`)
   check(metrics.floor, `${viewport.name}: hero floor grid missing`)
   check(metrics.brandF === 'F', `${viewport.name}: nav brand mark is ${metrics.brandF}`)
+  check(
+    /^SYS CHECK \d{4}-\d{2}-\d{2}/.test(metrics.sysCheck ?? '') &&
+      metrics.sysCheck.includes('LINKS'),
+    `${viewport.name}: footer system line is ${metrics.sysCheck}`
+  )
+  check(
+    metrics.sysOk === 'true' || metrics.sysOk === 'false',
+    `${viewport.name}: footer system state is ${metrics.sysOk}`
+  )
   check(metrics.sheets === 0, `${viewport.name}: sticky sheets still present`)
   check(metrics.sets === 2, `${viewport.name}: marquee sets ${metrics.sets}`)
   check(metrics.cards === 8, `${viewport.name}: marquee cards ${metrics.cards}`)

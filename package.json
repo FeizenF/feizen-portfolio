@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "icons": "node scripts/build-brand-icons.cjs",
     "og": "node scripts/build-og.mjs",
+    "site-check": "node scripts/site-check.mjs",
     "check": "node scripts/check.mjs"
   },
   "dependencies": {
