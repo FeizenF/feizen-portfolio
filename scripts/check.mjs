@@ -179,6 +179,70 @@ for (const viewport of viewports) {
     // Back to hero
     await page.evaluate(() => window.scrollTo(0, 0))
     await page.waitForTimeout(600)
+
+    if (viewport.name === 'desktop') {
+      // Command palette: open, filter, jump, close
+      await page.keyboard.press('Control+k')
+      await page.waitForTimeout(300)
+      const palette = await page.evaluate(() => ({
+        open: Boolean(document.querySelector('.palette')),
+        focused: Boolean(
+          document.activeElement?.classList.contains('palette-input')
+        ),
+        options: document.querySelectorAll('.palette-option').length,
+      }))
+      check(palette.open, 'command palette did not open')
+      check(palette.focused, 'command palette did not focus the input')
+      check(
+        palette.options === 5,
+        `command palette listed ${palette.options} options`
+      )
+
+      await page.keyboard.type('proj')
+      await page.waitForTimeout(180)
+      const filtered = await page.evaluate(() => ({
+        options: document.querySelectorAll('.palette-option').length,
+        label: document.querySelector('.palette-option .palette-label')
+          ?.textContent,
+      }))
+      check(
+        filtered.options === 1,
+        `palette filter kept ${filtered.options} options`
+      )
+      check(
+        filtered.label === 'Projects',
+        `palette filter matched ${filtered.label}`
+      )
+
+      await page.keyboard.press('Enter')
+      await page.waitForTimeout(1900)
+      const jump = await page.evaluate(() =>
+        Math.round(document.getElementById('projects').getBoundingClientRect().top)
+      )
+      check(Math.abs(jump) <= 2, `palette jump landed at ${jump}`)
+
+      await page.keyboard.press('Control+k')
+      await page.waitForTimeout(280)
+      await page.screenshot({ path: path.join(OUT, 'desktop-palette.png') })
+      await page.keyboard.press('Escape')
+      await page.waitForTimeout(240)
+      const stillOpen = await page.evaluate(() =>
+        Boolean(document.querySelector('.palette'))
+      )
+      check(!stillOpen, 'palette did not close on Escape')
+
+      await page.click('.nav-command')
+      await page.waitForTimeout(280)
+      const fromButton = await page.evaluate(() =>
+        Boolean(document.querySelector('.palette'))
+      )
+      check(fromButton, 'palette did not open from the navbar button')
+      await page.keyboard.press('Escape')
+      await page.waitForTimeout(240)
+
+      await page.evaluate(() => window.scrollTo(0, 0))
+      await page.waitForTimeout(600)
+    }
   }
 
   if (viewport.name === 'mobile') {

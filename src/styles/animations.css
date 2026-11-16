@@ -126,7 +126,9 @@
 
   .ambient-beam,
   .ambient-node-core,
-  .nav-status-dot {
+  .nav-status-dot,
+  .palette,
+  .palette-panel {
     animation: none !important;
   }
 

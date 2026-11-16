@@ -68,8 +68,9 @@ npm run check      # Playwright smoke test (needs a preview server)
 
 For `npm run check`, start `npm run preview` first, then run the check in a
 second terminal. It verifies overflow, console errors, the five sections, exact
-anchor landing, navigation state, the project rail, the mobile menu, form
-validation, copy rules (no em dash), typography, and reduced motion.
+anchor landing, navigation state, the command palette, the project rail, the
+mobile menu, form validation, copy rules (no em dash), typography, and reduced
+motion.
 
 ## Sections
 
@@ -206,8 +207,8 @@ src/
   App.jsx                   boot state, background layers, nav, sections
   main.jsx                  font and stylesheet imports
   assets/                   project covers
-  components/               AmbientBackground, BinaryRain, BootScreen, Footer,
-                            Navigation, ProfileFrame, ProjectCard, Reveal,
+  components/               AmbientBackground, BinaryRain, BootScreen, CommandPalette,
+                            Footer, Navigation, ProfileFrame, ProjectCard, Reveal,
                             TechIcon
   data/                     about, projects, technologies, contact, profile,
                             sections, brandIcons
@@ -222,6 +223,10 @@ scripts/                    icon, OG, and Playwright check scripts
 ## Accessibility
 
 - Semantic landmarks, skip link, visible focus rings.
+- A command palette (`Ctrl+K` or `Cmd+K`, also reachable from the navbar button)
+  filters the five sections by label or id and jumps to the chosen one. It keeps
+  focus on the search field, exposes the highlighted row through
+  `aria-activedescendant`, closes on `Escape`, and restores focus on close.
 - Desktop and mobile navigation expose the active section with
   `aria-current="location"`.
 - The mobile menu traps focus, closes on `Escape`, and restores focus.

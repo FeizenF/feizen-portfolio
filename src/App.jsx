@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import AmbientBackground from './components/AmbientBackground'
 import BinaryRain from './components/BinaryRain'
 import BootScreen from './components/BootScreen'
+import CommandPalette from './components/CommandPalette'
 import Navigation from './components/Navigation'
 import About from './sections/About'
 import Contact from './sections/Contact'
@@ -30,11 +31,28 @@ function bootAlreadySeen() {
 export default function App() {
   const reducedMotion = useReducedMotion()
   const [booted, setBooted] = useState(bootAlreadySeen)
+  const [paletteOpen, setPaletteOpen] = useState(false)
   const activeId = useActiveSection()
 
   useReveal(reducedMotion)
   useSmoothScroll(reducedMotion)
   useSectionMotion(reducedMotion, booted)
+
+  const closePalette = useCallback(() => setPaletteOpen(false), [])
+
+  useEffect(() => {
+    if (!booted) return undefined
+
+    const onKeyDown = (event) => {
+      if (!(event.metaKey || event.ctrlKey)) return
+      if (event.key.toLowerCase() !== 'k') return
+      event.preventDefault()
+      setPaletteOpen((value) => !value)
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [booted])
 
   useEffect(() => {
     if (reducedMotion) setBooted(true)
@@ -65,7 +83,8 @@ export default function App() {
 
       <AmbientBackground />
       <BinaryRain reducedMotion={reducedMotion} />
-      <Navigation activeId={activeId} />
+      <Navigation activeId={activeId} onOpenPalette={() => setPaletteOpen(true)} />
+      <CommandPalette open={paletteOpen} onClose={closePalette} />
 
       <main id="main" aria-busy={!booted}>
         <Hero entered={booted} />

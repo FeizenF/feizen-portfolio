@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, Search, X } from 'lucide-react'
 import { navigation } from '../data/sections'
 import { focusAfterScroll, scrollToId } from '../lib/scroll'
 
-export default function Navigation({ activeId }) {
+const isMac =
+  typeof navigator !== 'undefined' &&
+  /Mac|iPhone|iPad|iPod/.test(navigator.platform)
+
+export default function Navigation({ activeId, onOpenPalette }) {
   const [open, setOpen] = useState(false)
   const toggleRef = useRef(null)
   const firstLinkRef = useRef(null)
@@ -98,6 +102,16 @@ export default function Navigation({ activeId }) {
               )
             })}
           </nav>
+
+          <button
+            type="button"
+            className="nav-command"
+            onClick={onOpenPalette}
+            aria-label="Open command palette"
+          >
+            <Search size={13} strokeWidth={1.7} aria-hidden="true" />
+            <span aria-hidden="true">{isMac ? '⌘K' : 'CTRL K'}</span>
+          </button>
 
           <div className="nav-status" aria-label="Availability status">
             <span className="nav-status-dot" aria-hidden="true" />
